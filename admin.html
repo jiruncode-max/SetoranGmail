@@ -372,7 +372,8 @@ const rp=n=>'Rp '+Number(n||0).toLocaleString('id-ID');
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const tgl=t=>new Date(t).toLocaleString('id-ID',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-const fmtW=v=>{const d=String(v).replace(/\D/g,'').slice(0,15);return(d.match(/.{1,4}/g)||[]).join('-')};
+/* FORMAT NOMOR WAJIB: 0812-1212-121212 (4-4-sisa bebas berapapun) */
+const fmtW=v=>{const d=String(v).replace(/\D/g,'');if(d.length<=4)return d;if(d.length<=8)return d.slice(0,4)+'-'+d.slice(4);return d.slice(0,4)+'-'+d.slice(4,8)+'-'+d.slice(8)};
 const ST=s=>({pending:'Pending',sukses:'Sukses',ditolak:'Ditolak'}[s]||s);
 const avH=m=>m&&m.photo?`<img src="${m.photo}" alt="">`:esc(((m&&m.gmail)||'?')[0].toUpperCase());
 function norm(r){r=r||{};return{settings:Object.assign({},DEF,r.settings||{}),members:Array.isArray(r.members)?r.members:[],setoran:Array.isArray(r.setoran)?r.setoran:[],saldo:Array.isArray(r.saldo)?r.saldo:[],chat:Array.isArray(r.chat)?r.chat:[]};}
@@ -449,7 +450,7 @@ function openConv(id){activeConv=id;localStorage.setItem('BINS_ChatSeenA_'+id,Da
 function renderChatAdmin(){
   const m=DB.members.find(x=>x.id===activeConv);
   const head=$('#chatAdminHead');head.classList.remove('hidden');
-  head.innerHTML=`<div class="cell-user"><span class="avatar sm">${m?avH(m):'<i class="fa-solid fa-user-slash"></i>'}</span><div><b style="font-size:13.5px">${m?esc(m.gmail):'Member terhapus'}</b><span class="sub sm2 mono">${m?esc(m.phone):'-'}</span></div></div>`;
+  head.innerHTML=`<div class="cell-user"><span class="avatar sm">${m?avH(m):'<i class="fa-solid fa-user-slash"></i>'}</span><div><b style="font-size:13.5px">${m?esc(m.gmail):'Member terhapus'}</b><span class="sub sm2 mono">${m?esc(fmtW(m.phone)):'-'}</span></div></div>`;
   const box=$('#chatAdminBox');
   const msgs=DB.chat.filter(c=>c.memberId===activeConv).sort((a,b)=>a.at-b.at);
   box.innerHTML=msgs.length?msgs.map(c=>`<div class="bub ${c.from==='admin'?'me':'adm'}">${esc(c.msg)}<span class="t">${tgl(c.at)}</span></div>`).join(''):`<p class="empty" style="padding:16px 6px"><i class="fa-solid fa-comments"></i>Belum ada pesan</p>`;
@@ -479,14 +480,14 @@ function renderDash(){
   $('#dashSetoran').innerHTML=DB.setoran.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,5).map(s=>{const m=DB.members.find(x=>x.id===s.memberId);
     return `<div class="item"><div class="cell-user"><span class="avatar sm">${m?avH(m):'<i class="fa-solid fa-user-slash"></i>'}</span><div><b style="font-size:13px">${esc(s.gmail)}</b><span class="sub sm2">${m?esc(m.gmail):'-'} • ${tgl(s.createdAt)}</span></div></div><div class="item-side"><span class="badge ${s.status}">${ST(s.status)}</span></div></div>`;
   }).join('')||`<p class="empty"><i class="fa-solid fa-inbox"></i>Belum ada setoran</p>`;
-  $('#dashMember').innerHTML=DB.members.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,5).map(m=>`<div class="item"><div class="cell-user"><span class="avatar sm">${avH(m)}</span><div><b style="font-size:13px">${esc(m.gmail)}</b><span class="sub sm2 mono">${esc(m.phone)}</span></div></div><div class="item-side"><b style="color:var(--yel);font-size:13px">${rp(m.saldo)}</b></div></div>`).join('')||`<p class="empty"><i class="fa-solid fa-users-slash"></i>Belum ada member</p>`;
+  $('#dashMember').innerHTML=DB.members.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,5).map(m=>`<div class="item"><div class="cell-user"><span class="avatar sm">${avH(m)}</span><div><b style="font-size:13px">${esc(m.gmail)}</b><span class="sub sm2 mono">${esc(fmtW(m.phone))}</span></div></div><div class="item-side"><b style="color:var(--yel);font-size:13px">${rp(m.saldo)}</b></div></div>`).join('')||`<p class="empty"><i class="fa-solid fa-users-slash"></i>Belum ada member</p>`;
 }
 function fillSet(){$('#setName').value=DB.settings.siteName;$('#setTag').value=DB.settings.tagline;$('#setInfo').value=DB.settings.info;$('#setPrice').value=DB.settings.price;$('#setWaCh').value=DB.settings.waChannel||'';}
 function renderMember(){
   $('#memCount').textContent=DB.members.length;
   $('#memBody').innerHTML=DB.members.length?DB.members.slice().sort((a,b)=>b.createdAt-a.createdAt).map(m=>`<tr>
     <td><div class="cell-user"><span class="avatar sm">${avH(m)}</span><div><b>${esc(m.gmail)}</b><span class="sub sm2">Daftar ${tgl(m.createdAt)}</span></div></div></td>
-    <td class="mono">${esc(m.phone)}</td>
+    <td class="mono">${esc(fmtW(m.phone))}</td>
     <td><b style="color:var(--yel)">${rp(m.saldo)}</b></td>
     <td><span class="mono" id="pw-${m.id}">••••••</span><button class="eye" data-target="pw-${m.id}" data-pw="${esc(m.pass)}" onclick="togglePw(this)"><i class="fa-solid fa-eye"></i></button></td>
     <td><div class="act">
@@ -523,7 +524,7 @@ function renderEw(){
   $$('#wdPills .pill').forEach(p=>p.classList.toggle('active',p.dataset.f===wdFilter));
   const wds=DB.saldo.filter(t=>t.type==='keluar').sort((a,b)=>b.createdAt-a.createdAt).filter(t=>wdFilter==='semua'||t.status===wdFilter);
   $('#wdList').innerHTML=wds.length?wds.map(t=>{const m=DB.members.find(x=>x.id===t.memberId);
-    return `<div class="item"><div class="cell-user">${wBadge(t.metode)}<div><b class="mono" style="font-size:14px">${esc(t.nomor)}</b><span class="sub sm2">${esc(t.metode)} • ${m?esc(m.gmail):'-'} • ${tgl(t.createdAt)}</span></div></div><div class="item-side"><span class="badge ${t.status}">${ST(t.status)}</span><b style="color:var(--yel)">−${rp(t.jumlah)}</b>${t.status==='pending'?`<button class="btn btn-sm btn-ok" onclick="approveWd('${t.id}')" title="Setujui"><i class="fa-solid fa-check"></i></button><button class="btn btn-sm btn-no" onclick="rejectWd('${t.id}')" title="Tolak"><i class="fa-solid fa-xmark"></i></button>`:''}</div></div>`;
+    return `<div class="item"><div class="cell-user">${wBadge(t.metode)}<div><b class="mono" style="font-size:14px">${esc(fmtW(t.nomor))}</b><span class="sub sm2">${esc(t.metode)} • ${m?esc(m.gmail):'-'} • ${tgl(t.createdAt)}</span></div></div><div class="item-side"><span class="badge ${t.status}">${ST(t.status)}</span><b style="color:var(--yel)">−${rp(t.jumlah)}</b>${t.status==='pending'?`<button class="btn btn-sm btn-ok" onclick="approveWd('${t.id}')" title="Setujui"><i class="fa-solid fa-check"></i></button><button class="btn btn-sm btn-no" onclick="rejectWd('${t.id}')" title="Tolak"><i class="fa-solid fa-xmark"></i></button>`:''}</div></div>`;
   }).join(''):`<p class="empty"><i class="fa-solid fa-money-bill-transfer"></i>Tidak ada data penarikan</p>`;
 }
 function renderKontrol(){$('#openToggle').checked=!!DB.settings.open;$('#kontrolText').innerHTML=DB.settings.open?'Status saat ini: <b style="color:var(--grn)">DIBUKA</b> — member bisa melakukan setoran gmail.':'Status saat ini: <b style="color:var(--red)">DITUTUP</b> — setoran dihentikan karena kuota penuh.';}
