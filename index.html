@@ -125,7 +125,7 @@ main{flex:1;margin-left:256px;padding:24px 28px 100px}
 .toast{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);padding:13px 18px;border-radius:12px;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.5);animation:tin .3s;display:flex;align-items:center;gap:10px;max-width:330px;transition:.3s}
 .toast.ok i{color:var(--grn)}.toast.err{border-left-color:var(--red)}.toast.err i{color:var(--red)}
 @keyframes tin{from{transform:translateX(40px);opacity:0}}
-/* ===== TOMBOL MELAYANG CS (CHAT) & WA (SALURAN) — HANYA SAAT LOGIN ===== */
+/* ===== TOMBOL MELAYANG CS (CHAT) & WA (SALURAN) ===== */
 .fab-wrap{position:fixed;right:20px;bottom:20px;z-index:75;display:flex;flex-direction:column;gap:12px;align-items:center}
 .fab{position:relative;width:56px;height:56px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;font-size:25px;color:#fff;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.5);transition:.25s;text-decoration:none}
 .fab:hover{transform:translateY(-3px) scale(1.06)}
@@ -163,7 +163,7 @@ main{margin-left:0;padding:20px 16px 110px}
 .bottomnav button.active{color:#a58bff}
 .auth-card{padding:28px 22px}
 .fab-wrap{bottom:88px}
-/* ===== POPUP CS DI HP: TENGAH LAYAR, TIDAK KEPOTONG ===== */
+/* POPUP CS DI HP: TENGAH LAYAR, TIDAK KEPOTONG */
 .cs-pop{
   left:50%;right:auto;bottom:auto;top:50%;
   transform:translate(-50%,-50%);
@@ -201,7 +201,7 @@ main{margin-left:0;padding:20px 16px 110px}
     </form>
     <form id="registerForm" class="hidden">
       <div class="field"><label>Email Gmail</label><div class="inp"><i class="fa-solid fa-envelope"></i><input type="email" id="rgGmail" placeholder="nama@gmail.com" required></div></div>
-      <div class="field"><label>Nomor HP / WhatsApp</label><div class="inp"><i class="fa-solid fa-phone"></i><input id="rgPhone" placeholder="08xx-xxxx-xxxx" maxlength="17" required></div></div>
+      <div class="field"><label>Nomor HP / WhatsApp (format: 0812-1212-121212)</label><div class="inp"><i class="fa-solid fa-phone"></i><input id="rgPhone" placeholder="0812-1212-121212" maxlength="20" required></div></div>
       <div class="field"><label>Password</label><div class="inp"><i class="fa-solid fa-lock"></i><input type="password" id="rgPass" placeholder="Minimal 6 karakter" required></div></div>
       <div class="field"><label>Ulangi Password</label><div class="inp"><i class="fa-solid fa-lock"></i><input type="password" id="rgPass2" placeholder="Ulangi password" required></div></div>
       <button class="btn w100" type="submit"><i class="fa-solid fa-user-plus"></i> Daftar Sekarang</button>
@@ -303,7 +303,7 @@ main{margin-left:0;padding:20px 16px 110px}
           <form id="wdForm">
             <div class="field"><label>E-Wallet Tujuan</label><div class="inp"><i class="fa-solid fa-wallet"></i>
               <select id="wdWallet"><option value="">Pilih E-Wallet</option><option value="OVO">OVO</option><option value="DANA">DANA</option><option value="GoPay">GoPay</option></select></div></div>
-            <div class="field"><label>Nomor E-Wallet</label><div class="inp"><i class="fa-solid fa-mobile-screen"></i><input id="wdNum" placeholder="08xx-xxxx-xxxx" maxlength="17" required></div></div>
+            <div class="field"><label>Nomor E-Wallet (format: 0812-1212-121212)</label><div class="inp"><i class="fa-solid fa-mobile-screen"></i><input id="wdNum" placeholder="0812-1212-121212" maxlength="20" required></div></div>
             <div class="field"><label>Jumlah Penarikan (min Rp 1.000)</label><div class="inp"><i class="fa-solid fa-coins"></i><input type="number" id="wdAmount" min="1000" step="500" placeholder="1000" required></div></div>
             <div class="note"><i class="fa-solid fa-circle-info"></i><span>Minimal penarikan Rp 1.000. Penarikan diproses oleh admin ke OVO / DANA / GoPay.</span></div>
             <button class="btn w100" type="submit"><i class="fa-solid fa-arrow-down"></i> Ajukan Penarikan</button>
@@ -395,7 +395,8 @@ const rp=n=>'Rp '+Number(n||0).toLocaleString('id-ID');
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const tgl=t=>new Date(t).toLocaleString('id-ID',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-const fmtW=v=>{const d=String(v).replace(/\D/g,'').slice(0,15);return(d.match(/.{1,4}/g)||[]).join('-')};
+/* FORMAT NOMOR WAJIB: 0812-1212-121212 (4-4-sisa bebas berapapun) */
+const fmtW=v=>{const d=String(v).replace(/\D/g,'');if(d.length<=4)return d;if(d.length<=8)return d.slice(0,4)+'-'+d.slice(4);return d.slice(0,4)+'-'+d.slice(4,8)+'-'+d.slice(8)};
 const ST=s=>({pending:'Pending',sukses:'Sukses',ditolak:'Ditolak'}[s]||s);
 function norm(r){r=r||{};return{settings:Object.assign({},DEF,r.settings||{}),members:Array.isArray(r.members)?r.members:[],setoran:Array.isArray(r.setoran)?r.setoran:[],saldo:Array.isArray(r.saldo)?r.saldo:[],chat:Array.isArray(r.chat)?r.chat:[]};}
 
@@ -473,7 +474,7 @@ function renderBeranda(){
 function renderSetor(){$('#setorPrice').textContent=rp(DB.settings.price);$('#setorOpen').classList.toggle('hidden',!DB.settings.open);$('#setorClosed').classList.toggle('hidden',DB.settings.open);$('#stPhone').textContent=fmtW(ME.phone);}
 function renderSaldo(){
   $('#saldoBig').textContent=rp(ME.saldo);
-  if(!$('#wdWallet').value&&!$('#wdNum').value){const last=DB.setoran.filter(s=>s.memberId===ME.id&&s.walletNumber).sort((a,b)=>b.createdAt-a.createdAt)[0];if(last){$('#wdWallet').value=last.walletType;$('#wdNum').value=last.walletNumber;}}
+  if(!$('#wdWallet').value&&!$('#wdNum').value){const last=DB.setoran.filter(s=>s.memberId===ME.id&&s.walletNumber).sort((a,b)=>b.createdAt-a.createdAt)[0];if(last){$('#wdWallet').value=last.walletType;$('#wdNum').value=fmtW(last.walletNumber);}}
   const mine=DB.saldo.filter(t=>t.memberId===ME.id).sort((a,b)=>b.createdAt-a.createdAt);
   const inn=mine.filter(t=>t.type==='masuk').reduce((a,b)=>a+b.jumlah,0);
   const out=mine.filter(t=>t.type==='keluar'&&t.status!=='ditolak').reduce((a,b)=>a+b.jumlah,0);
@@ -491,7 +492,7 @@ function renderRiwayat(){
     <div class="item-side"><span class="badge ${s.status}">${ST(s.status)}</span><b>${rp(s.price)}</b></div>
   </div>`).join(''):`<p class="empty"><i class="fa-solid fa-clock-rotate-left"></i>Belum ada setoran. Yuk setor gmail pertamamu!</p>`;
 }
-function renderAkun(){$('#akunGmail').textContent=ME.gmail;$('#akunPhone').textContent='No. HP: '+ME.phone;setAvatars();}
+function renderAkun(){$('#akunGmail').textContent=ME.gmail;$('#akunPhone').textContent='No. HP: '+fmtW(ME.phone);setAvatars();}
 
 /* ================= AUTENTIKASI ================= */
 function switchTab(t){$$('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));$('#loginForm').classList.toggle('hidden',t!=='login');$('#registerForm').classList.toggle('hidden',t!=='register');}
@@ -504,7 +505,7 @@ function switchTab(t){$$('.tab').forEach(b=>b.classList.toggle('active',b.datase
   ph=fmtW(ph);
   const g=$('#rgGmail').value.trim().toLowerCase(),p1=$('#rgPass').value,p2=$('#rgPass2').value;
   if(!/^[^\s@]+@gmail\.com$/.test(g))return toast('Email harus berupa akun @gmail.com!','err');
-  if(ph.replace(/-/g,'').length<10||!ph.startsWith('08'))return toast('Nomor HP tidak valid! (contoh: 0812-3456-7890)','err');
+  if(ph.replace(/-/g,'').length<10||!ph.startsWith('08'))return toast('Nomor HP tidak valid! (contoh: 0812-1212-121212)','err');
   if(p1.length<6)return toast('Password minimal 6 karakter!','err');
   if(p1!==p2)return toast('Konfirmasi password tidak sama!','err');
   const ok=await mutate(d=>{
@@ -553,7 +554,7 @@ function logout(){if(!confirm('Yakin ingin keluar?'))return;localStorage.removeI
   n=fmtW(n);
   const amt=Math.floor(+$('#wdAmount').value),w=$('#wdWallet').value;
   if(!w)return toast('Pilih E-Wallet tujuan!','err');
-  if(n.replace(/-/g,'').length<10)return toast('Nomor E-Wallet tidak valid!','err');
+  if(n.replace(/-/g,'').length<10)return toast('Nomor E-Wallet tidak valid! (contoh: 0812-1212-121212)','err');
   if(!amt||amt<1000)return toast('Minimal penarikan Rp 1.000!','err');
   const ok=await mutate(d=>{
     const m=d.members.find(x=>x.id===ME.id);
@@ -615,7 +616,6 @@ function renderChat(){
   const unread=DB.chat.filter(c=>c.memberId===ME.id&&c.from==='admin'&&c.at>seen).length;
   const b=$('#csBadge');if(b){b.style.display=unread?'flex':'none';b.textContent=unread>99?'99+':unread;}
 }
-/* Deteksi pesan baru dari admin → popup auto-terbuka + pesan di-scroll ke tengah */
 function checkNewAdminMsg(){
   if(!ME)return;
   if($('#app').classList.contains('hidden'))return;
@@ -646,7 +646,7 @@ async function sendMsg(){
 }
  $('#csMsg').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();sendMsg();}});
 
-/* ===== FORMAT OTOMATIS NOMOR ===== */
+/* ===== FORMAT OTOMATIS NOMOR (0812-1212-121212) ===== */
 ['#wdNum','#rgPhone'].forEach(s=>{const el=$(s);if(el)el.addEventListener('input',()=>el.value=fmtW(el.value));});
 
 /* ================= AUTO-SYNC 3 DETIK (BINS CLOUD) ================= */
