@@ -52,6 +52,7 @@ textarea:focus{border-color:var(--acc)}
 .nav-btn i{width:18px;text-align:center}
 .nav-btn:hover{background:var(--card);color:var(--txt)}
 .nav-btn.active{background:var(--grad);color:#fff;box-shadow:0 6px 18px rgba(124,92,255,.35)}
+.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:none;align-items:center;justify-content:center;padding:0 5px}
 .side-user{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
 .side-user-info{flex:1;min-width:0}
 .side-user-info b{font-size:12.5px;display:block}
@@ -125,6 +126,34 @@ tr:hover td{background:rgba(124,92,255,.04)}
 .switch input:checked+.slider::before{transform:translateX(30px);background:#fff}
 .kontrol-card{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
 .kontrol-card h3{font-size:19px;margin-bottom:6px}
+/* ===== CHAT CS ADMIN ===== */
+.chat-grid{display:grid;grid-template-columns:300px 1fr;gap:16px;align-items:start}
+.conv{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer;transition:.2s;margin-bottom:6px;background:var(--bg2);border:1px solid var(--line)}
+.conv:hover{border-color:var(--acc)}
+.conv.active{border-color:var(--acc);background:rgba(124,92,255,.1)}
+.conv-info{flex:1;min-width:0}
+.conv-info b{font-size:12.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.conv-info span{font-size:10.5px;color:var(--mut);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.conv-side{text-align:right;flex-shrink:0}
+.conv-side .t{font-size:9.5px;color:var(--mut);display:block}
+.udot{width:9px;height:9px;border-radius:50%;background:var(--red);display:inline-block;margin-bottom:4px;animation:pulse 1.5s infinite}
+.chat-panel{display:flex;flex-direction:column;min-height:440px;padding:14px}
+.chat-head{padding:10px 12px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;margin-bottom:12px;flex-shrink:0}
+.chat-box{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:4px 2px;min-height:260px}
+.bub{max-width:72%;padding:9px 12px;border-radius:14px;font-size:12.5px;line-height:1.5;word-break:break-word}
+.bub.me{align-self:flex-end;background:var(--grad);color:#fff;border-bottom-right-radius:4px}
+.bub.adm{align-self:flex-start;background:var(--bg2);border:1px solid var(--line);border-bottom-left-radius:4px}
+.bub .t{display:block;font-size:9.5px;opacity:.65;margin-top:4px}
+.chat-input{display:flex;gap:8px;margin-top:12px;flex-shrink:0}
+.chat-input .inp{flex:1}
+.chat-input .btn{padding:0 18px}
+/* ===== TOMBOL CS MELAYANG ADMIN ===== */
+.fab-wrap{position:fixed;right:20px;bottom:20px;z-index:75}
+.fab{position:relative;width:56px;height:56px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;font-size:25px;color:#fff;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.5);transition:.25s;background:linear-gradient(135deg,#7c5cff,#4f8cff)}
+.fab:hover{transform:translateY(-3px) scale(1.06)}
+.fab-badge{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;border-radius:10px;background:var(--red);color:#fff;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 6px;box-shadow:0 3px 8px rgba(0,0,0,.4)}
+.fab-tip{position:absolute;right:68px;top:50%;transform:translateY(-50%);background:var(--card);border:1px solid var(--line);color:var(--txt);padding:6px 12px;border-radius:10px;font-size:11.5px;font-weight:600;white-space:nowrap;opacity:0;pointer-events:none;transition:.2s}
+.fab:hover .fab-tip{opacity:1}
 #toast{position:fixed;top:20px;right:20px;z-index:999;display:flex;flex-direction:column;gap:10px}
 .toast{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);padding:13px 18px;border-radius:12px;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.5);animation:tin .3s;display:flex;align-items:center;gap:10px;max-width:330px;transition:.3s}
 .toast.ok i{color:var(--grn)}.toast.err{border-left-color:var(--red)}.toast.err i{color:var(--red)}
@@ -134,10 +163,13 @@ tr:hover td{background:rgba(124,92,255,.04)}
 .sidebar{display:none}
 main{margin-left:0;padding:20px 14px 110px}
 .bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;background:rgba(15,19,34,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:60;padding:8px}
-.bottomnav button{flex:1;background:none;border:none;color:var(--mut);font-size:9px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 1px;cursor:pointer;border-radius:12px;font-family:inherit}
-.bottomnav button i{font-size:16px}
+.bottomnav button{flex:1;background:none;border:none;color:var(--mut);font-size:8.5px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 1px;cursor:pointer;border-radius:12px;font-family:inherit}
+.bottomnav button i{font-size:15px}
 .bottomnav button.active{color:#a58bff}
 .auth-card{padding:28px 22px}
+.chat-grid{grid-template-columns:1fr}
+.bub{max-width:85%}
+.fab-wrap{bottom:88px}
 }
 </style>
 </head>
@@ -173,6 +205,7 @@ main{margin-left:0;padding:20px 14px 110px}
       <button class="nav-btn" data-page="member"><i class="fa-solid fa-users"></i> Data Member</button>
       <button class="nav-btn" data-page="setoran"><i class="fa-solid fa-inbox"></i> Setoran Masuk</button>
       <button class="nav-btn" data-page="ewallet"><i class="fa-solid fa-credit-card"></i> E-Wallet</button>
+      <button class="nav-btn" data-page="pesan"><i class="fa-solid fa-headset"></i> Pesan CS <span class="nav-badge" id="navChatBadge">0</span></button>
       <button class="nav-btn" data-page="kontrol"><i class="fa-solid fa-power-off"></i> Kontrol</button>
     </nav>
     <div class="side-user" style="margin-top:12px">
@@ -214,8 +247,8 @@ main{margin-left:0;padding:20px 14px 110px}
             <div class="field"><label>Tagline Singkat</label><div class="inp"><i class="fa-solid fa-heading"></i><input id="setTag" placeholder="Tagline di beranda member"></div></div>
             <div class="field"><label>Informasi Website</label><textarea id="setInfo" placeholder="Info lengkap yang tampil di Beranda member..."></textarea></div>
             <div class="field"><label>Harga per 1 Gmail (Rp)</label><div class="inp"><i class="fa-solid fa-tag"></i><input type="number" id="setPrice" min="0" step="500" required></div></div>
-            <div class="field"><label>Nomor WhatsApp Admin (tombol CS/WA member)</label><div class="inp"><i class="fa-brands fa-whatsapp" style="color:#25d366"></i><input id="setWa" placeholder="628xxxxxxxxxx" required></div></div>
-            <div class="note"><i class="fa-brands fa-whatsapp"></i><span>Nomor ini dipakai tombol <b>CS &amp; WhatsApp</b> di kanan bawah halaman member. Format: <b>62xxxxxxxxxx</b> (boleh mulai 08, otomatis dikonversi).</span></div>
+            <div class="field"><label>Link Saluran WhatsApp (tombol WA member)</label><div class="inp"><i class="fa-brands fa-whatsapp" style="color:#25d366"></i><input id="setWaCh" placeholder="https://whatsapp.com/channel/xxxx"></div></div>
+            <div class="note"><i class="fa-brands fa-whatsapp"></i><span>Tombol <b>WA hijau</b> di kanan bawah web member akan membuka link saluran ini. Kosongkan jika belum punya saluran.</span></div>
             <button class="btn w100" type="submit"><i class="fa-solid fa-floppy-disk"></i> Simpan Pengaturan</button>
           </form>
         </div>
@@ -273,6 +306,24 @@ main{margin-left:0;padding:20px 14px 110px}
       </div>
     </section>
 
+    <!-- PESAN CS -->
+    <section id="page-pesan" class="page hidden">
+      <div class="chat-grid">
+        <div class="card" style="padding:14px">
+          <h4 class="card-title" style="margin-bottom:10px"><i class="fa-solid fa-comments"></i> Percakapan <span class="badge pending" id="csTotal" style="display:none">0 baru</span></h4>
+          <div id="convList"></div>
+        </div>
+        <div class="card chat-panel">
+          <div id="chatAdminHead" class="chat-head hidden"></div>
+          <div class="chat-box" id="chatAdminBox"><p class="empty" style="margin:auto"><i class="fa-solid fa-comments"></i>Pilih percakapan member di sebelah kiri</p></div>
+          <div id="chatAdminInputWrap" class="chat-input hidden">
+            <div class="inp"><input id="admMsg" placeholder="Tulis balasan…" maxlength="500"></div>
+            <button class="btn" onclick="sendAdminMsg()" title="Kirim"><i class="fa-solid fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- KONTROL -->
     <section id="page-kontrol" class="page hidden">
       <div class="card kontrol-card">
@@ -292,8 +343,14 @@ main{margin-left:0;padding:20px 14px 110px}
     <button data-page="member"><i class="fa-solid fa-users"></i>Member</button>
     <button data-page="setoran"><i class="fa-solid fa-inbox"></i>Setoran</button>
     <button data-page="ewallet"><i class="fa-solid fa-credit-card"></i>E-Wallet</button>
+    <button data-page="pesan"><i class="fa-solid fa-headset"></i>Pesan</button>
     <button data-page="kontrol"><i class="fa-solid fa-power-off"></i>Kontrol</button>
   </nav>
+
+  <!-- ===== TOMBOL CS MELAYANG ADMIN (MUNCUL SETELAH LOGIN) ===== -->
+  <div class="fab-wrap">
+    <button class="fab" onclick="navigate('pesan')" title="Pesan CS Member"><i class="fa-solid fa-headset"></i><span class="fab-tip">Pesan CS Member</span><span class="fab-badge" id="fabChatBadge">0</span></button>
+  </div>
 </div>
 
 <div id="toast"></div>
@@ -306,11 +363,11 @@ const CONFIG={
   SYNC_MS:3000
 };
 const APIB='https://api.jsonbin.io/v3';
-const DEF={siteName:'SetoranGmail',tagline:'Platform setor akun Gmail terpercaya',info:'Setorkan akun Gmail Anda dan dapatkan penghasilan!',price:1000,open:true,adminUser:'JirunSmd',adminPass:'JirunSmd27-',waAdmin:'6281234567890'};
+const DEF={siteName:'SetoranGmail',tagline:'Platform setor akun Gmail terpercaya',info:'Setorkan akun Gmail Anda dan dapatkan penghasilan!',price:1000,open:true,adminUser:'JirunSmd',adminPass:'JirunSmd27-',waChannel:''};
 
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
-let DB=norm(null),cur='dashboard',setorFilter='pending',wdFilter='pending',busy=false;
-const PAGES={dashboard:['Dashboard','Ringkasan data SetoranGmail'],pengaturan:['Pengaturan','Info website, harga & nomor WA admin'],member:['Data Member','Kelola member terdaftar'],setoran:['Setoran Gmail','Terima / tolak setoran member'],ewallet:['E-Wallet','Nomor penyetor & penarikan saldo'],kontrol:['Kontrol Setoran','Buka / tutup setoran']};
+let DB=norm(null),cur='dashboard',setorFilter='pending',wdFilter='pending',activeConv=null,busy=false;
+const PAGES={dashboard:['Dashboard','Ringkasan data SetoranGmail'],pengaturan:['Pengaturan','Info website, harga & saluran WA'],member:['Data Member','Kelola member terdaftar'],setoran:['Setoran Gmail','Terima / tolak setoran member'],ewallet:['E-Wallet','Nomor penyetor & penarikan saldo'],pesan:['Pesan CS','Balas chat member'],kontrol:['Kontrol Setoran','Buka / tutup setoran']};
 const rp=n=>'Rp '+Number(n||0).toLocaleString('id-ID');
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -318,7 +375,7 @@ const tgl=t=>new Date(t).toLocaleString('id-ID',{day:'2-digit',month:'short',hou
 const fmtW=v=>{const d=String(v).replace(/\D/g,'').slice(0,15);return(d.match(/.{1,4}/g)||[]).join('-')};
 const ST=s=>({pending:'Pending',sukses:'Sukses',ditolak:'Ditolak'}[s]||s);
 const avH=m=>m&&m.photo?`<img src="${m.photo}" alt="">`:esc(((m&&m.gmail)||'?')[0].toUpperCase());
-function norm(r){r=r||{};return{settings:Object.assign({},DEF,r.settings||{}),members:Array.isArray(r.members)?r.members:[],setoran:Array.isArray(r.setoran)?r.setoran:[],saldo:Array.isArray(r.saldo)?r.saldo:[]};}
+function norm(r){r=r||{};return{settings:Object.assign({},DEF,r.settings||{}),members:Array.isArray(r.members)?r.members:[],setoran:Array.isArray(r.setoran)?r.setoran:[],saldo:Array.isArray(r.saldo)?r.saldo:[],chat:Array.isArray(r.chat)?r.chat:[]};}
 
 /* ================= API BINS ================= */
 async function readDB(){
@@ -354,11 +411,63 @@ function applyBrand(){$('#authSiteName').textContent=DB.settings.siteName;$('#si
 function wBadge(t){const c=String(t||'').toLowerCase();const cls=c==='ovo'?'w-ovo':c==='dana'?'w-dana':c==='gopay'?'w-gopay':'';return `<span class="w-badge ${cls}">${esc(String(t||'?')[0].toUpperCase())}</span>`;}
 function togglePw(btn){const el=document.getElementById(btn.dataset.target);if(!el)return;const show=el.dataset.shown!=='1';el.dataset.shown=show?'1':'0';el.textContent=show?btn.dataset.pw:'••••••';btn.innerHTML=`<i class="fa-solid ${show?'fa-eye-slash':'fa-eye'}"></i>`;}
 function copyText(t){navigator.clipboard.writeText(t).then(()=>toast('Nomor disalin! 📋')).catch(()=>toast('Gagal menyalin nomor','err'));}
-function refreshUI(){applyBrand();if(!$('#app').classList.contains('hidden'))render(cur);}
+function refreshUI(){applyBrand();updateChatBadge();if(!$('#app').classList.contains('hidden'))render(cur);}
+
+/* ================= CHAT CS (ADMIN) ================= */
+function chatSeenA(id){return +(localStorage.getItem('BINS_ChatSeenA_'+id)||0)}
+function unreadFor(id){return DB.chat.filter(c=>c.memberId===id&&c.from==='member'&&c.at>chatSeenA(id)).length}
+function totalUnread(){const ids=[...new Set(DB.chat.filter(c=>c.from==='member').map(c=>c.memberId))];return ids.reduce((a,id)=>a+unreadFor(id),0);}
+function updateChatBadge(){
+  const tot=totalUnread();
+  const f=$('#fabChatBadge');if(f){f.style.display=tot?'flex':'none';f.textContent=tot>99?'99+':tot;}
+  const nb=$('#navChatBadge');if(nb){nb.style.display=tot?'inline-flex':'none';nb.textContent=tot>99?'99+':tot;}
+}
+function renderPesan(){
+  const map={};
+  DB.chat.forEach(c=>{if(!map[c.memberId]||c.at>map[c.memberId])map[c.memberId]=c.at;});
+  const ids=Object.keys(map).sort((a,b)=>map[b]-map[a]);
+  $('#convList').innerHTML=ids.length?ids.map(id=>{
+    const m=DB.members.find(x=>x.id===id);
+    const last=DB.chat.filter(c=>c.memberId===id).sort((a,b)=>b.at-a.at)[0];
+    const un=unreadFor(id);
+    return `<div class="conv ${activeConv===id?'active':''}" onclick="openConv('${id}')">
+      <span class="avatar sm">${m?avH(m):'<i class="fa-solid fa-user-slash"></i>'}</span>
+      <div class="conv-info"><b>${m?esc(m.gmail):'Member terhapus'}</b><span>${esc(last.msg)}</span></div>
+      <div class="conv-side">${un?'<span class="udot"></span>':''}<span class="t">${tgl(last.at)}</span></div>
+    </div>`;
+  }).join(''):`<p class="empty" style="padding:16px 6px"><i class="fa-solid fa-comments"></i>Belum ada pesan masuk</p>`;
+  const tot=totalUnread();
+  const tEl=$('#csTotal');if(tEl){tEl.style.display=tot?'inline-flex':'none';tEl.textContent=tot+' baru';}
+  updateChatBadge();
+  if(activeConv)renderChatAdmin();
+  else{
+    $('#chatAdminHead').classList.add('hidden');$('#chatAdminInputWrap').classList.add('hidden');
+    $('#chatAdminBox').innerHTML=`<p class="empty" style="margin:auto"><i class="fa-solid fa-comments"></i>Pilih percakapan member di sebelah kiri</p>`;
+  }
+}
+function openConv(id){activeConv=id;localStorage.setItem('BINS_ChatSeenA_'+id,Date.now());renderPesan();}
+function renderChatAdmin(){
+  const m=DB.members.find(x=>x.id===activeConv);
+  const head=$('#chatAdminHead');head.classList.remove('hidden');
+  head.innerHTML=`<div class="cell-user"><span class="avatar sm">${m?avH(m):'<i class="fa-solid fa-user-slash"></i>'}</span><div><b style="font-size:13.5px">${m?esc(m.gmail):'Member terhapus'}</b><span class="sub sm2 mono">${m?esc(m.phone):'-'}</span></div></div>`;
+  const box=$('#chatAdminBox');
+  const msgs=DB.chat.filter(c=>c.memberId===activeConv).sort((a,b)=>a.at-b.at);
+  box.innerHTML=msgs.length?msgs.map(c=>`<div class="bub ${c.from==='admin'?'me':'adm'}">${esc(c.msg)}<span class="t">${tgl(c.at)}</span></div>`).join(''):`<p class="empty" style="padding:16px 6px"><i class="fa-solid fa-comments"></i>Belum ada pesan</p>`;
+  box.scrollTop=box.scrollHeight;
+  $('#chatAdminInputWrap').classList.remove('hidden');
+}
+async function sendAdminMsg(){
+  const v=$('#admMsg').value.trim();
+  if(!v)return toast('Tulis balasan dulu!','err');
+  if(!activeConv)return;
+  const ok=await mutate(d=>{d.chat.push({id:uid(),memberId:activeConv,from:'admin',msg:v,at:Date.now()});});
+  if(ok){$('#admMsg').value='';localStorage.setItem('BINS_ChatSeenA_'+activeConv,Date.now());renderPesan();}
+}
+ $('#admMsg').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();sendAdminMsg();}});
 
 /* ================= NAVIGASI ================= */
 function navigate(p){cur=p;$$('.page').forEach(x=>x.classList.add('hidden'));$('#page-'+p).classList.remove('hidden');$$('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===p));$('#pageTitle').textContent=PAGES[p][0];$('#pageSub').textContent=PAGES[p][1];if(p==='pengaturan')fillSet();render(p);}
-function render(p){if(p==='dashboard')renderDash();else if(p==='member')renderMember();else if(p==='setoran')renderSetoran();else if(p==='ewallet')renderEw();else if(p==='kontrol')renderKontrol();}
+function render(p){if(p==='dashboard')renderDash();else if(p==='member')renderMember();else if(p==='setoran')renderSetoran();else if(p==='ewallet')renderEw();else if(p==='pesan')renderPesan();else if(p==='kontrol')renderKontrol();}
  $$('[data-page]').forEach(b=>b.onclick=()=>navigate(b.dataset.page));
 
 /* ================= RENDER ================= */
@@ -372,7 +481,7 @@ function renderDash(){
   }).join('')||`<p class="empty"><i class="fa-solid fa-inbox"></i>Belum ada setoran</p>`;
   $('#dashMember').innerHTML=DB.members.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,5).map(m=>`<div class="item"><div class="cell-user"><span class="avatar sm">${avH(m)}</span><div><b style="font-size:13px">${esc(m.gmail)}</b><span class="sub sm2 mono">${esc(m.phone)}</span></div></div><div class="item-side"><b style="color:var(--yel);font-size:13px">${rp(m.saldo)}</b></div></div>`).join('')||`<p class="empty"><i class="fa-solid fa-users-slash"></i>Belum ada member</p>`;
 }
-function fillSet(){$('#setName').value=DB.settings.siteName;$('#setTag').value=DB.settings.tagline;$('#setInfo').value=DB.settings.info;$('#setPrice').value=DB.settings.price;$('#setWa').value=DB.settings.waAdmin||'';}
+function fillSet(){$('#setName').value=DB.settings.siteName;$('#setTag').value=DB.settings.tagline;$('#setInfo').value=DB.settings.info;$('#setPrice').value=DB.settings.price;$('#setWaCh').value=DB.settings.waChannel||'';}
 function renderMember(){
   $('#memCount').textContent=DB.members.length;
   $('#memBody').innerHTML=DB.members.length?DB.members.slice().sort((a,b)=>b.createdAt-a.createdAt).map(m=>`<tr>
@@ -462,13 +571,14 @@ async function rejectWd(id){
   if(ok)toast('Penarikan ditolak, saldo dikembalikan ke member.','err');
 }
 async function delMember(id){
-  if(!confirm('Hapus member ini beserta SEMUA data setoran & saldonya?'))return;
+  if(!confirm('Hapus member ini beserta SEMUA data setoran, saldo & chatnya?'))return;
   const ok=await mutate(d=>{
     d.members=d.members.filter(m=>m.id!==id);
     d.setoran=d.setoran.filter(s=>s.memberId!==id);
     d.saldo=d.saldo.filter(s=>s.memberId!==id);
+    d.chat=d.chat.filter(c=>c.memberId!==id);
   });
-  if(ok)toast('Member & semua datanya dihapus!');
+  if(ok){if(activeConv===id)activeConv=null;toast('Member & semua datanya dihapus!');}
 }
 async function editSaldo(id){
   const m=DB.members.find(x=>x.id===id);if(!m)return;
@@ -493,17 +603,16 @@ async function toggleOpen(el){
 /* ================= PENGATURAN ================= */
  $('#setForm').onsubmit=async e=>{
   e.preventDefault();
-  let wa=$('#setWa').value.replace(/\D/g,'');
-  if(wa.startsWith('0'))wa='62'+wa.slice(1);
-  if(wa.length<10||!wa.startsWith('62'))return toast('Nomor WhatsApp tidak valid! Contoh: 6281234567890','err');
+  const ch=$('#setWaCh').value.trim();
+  if(ch&&!/^https?:\/\//i.test(ch))return toast('Link saluran harus dimulai http:// atau https://','err');
   const ok=await mutate(d=>{
     d.settings.siteName=$('#setName').value.trim()||'SetoranGmail';
     d.settings.tagline=$('#setTag').value.trim();
     d.settings.info=$('#setInfo').value.trim();
     d.settings.price=Math.max(0,parseInt($('#setPrice').value)||0);
-    d.settings.waAdmin=wa;
+    d.settings.waChannel=ch;
   });
-  if(ok)toast('Pengaturan disimpan! Tombol CS/WA member langsung aktif. ✨');
+  if(ok)toast('Pengaturan disimpan! ✨');
 };
  $('#admForm').onsubmit=async e=>{
   e.preventDefault();
