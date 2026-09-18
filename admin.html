@@ -155,11 +155,11 @@ main{margin-left:0;padding:20px 14px 110px}
       <p>Panel Admin — Login</p>
     </div>
     <form id="adminForm" style="margin-top:24px">
-      <div class="field"><label>Username Admin</label><div class="inp"><i class="fa-solid fa-user-shield"></i><input id="adUser" placeholder="admin" required></div></div>
+      <div class="field"><label>Username Admin</label><div class="inp"><i class="fa-solid fa-user-shield"></i><input id="adUser" placeholder="Username" required></div></div>
       <div class="field"><label>Password Admin</label><div class="inp"><i class="fa-solid fa-lock"></i><input type="password" id="adPass" placeholder="••••••••" required></div></div>
       <button class="btn w100" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Masuk Panel Admin</button>
     </form>
-    <p class="auth-foot">Login default: <b>admin</b> / <b>admin123</b></p>
+    <p class="auth-foot">Masuk dengan akun admin yang sudah diatur.</p>
   </div>
 </div>
 
@@ -214,6 +214,8 @@ main{margin-left:0;padding:20px 14px 110px}
             <div class="field"><label>Tagline Singkat</label><div class="inp"><i class="fa-solid fa-heading"></i><input id="setTag" placeholder="Tagline di beranda member"></div></div>
             <div class="field"><label>Informasi Website</label><textarea id="setInfo" placeholder="Info lengkap yang tampil di Beranda member..."></textarea></div>
             <div class="field"><label>Harga per 1 Gmail (Rp)</label><div class="inp"><i class="fa-solid fa-tag"></i><input type="number" id="setPrice" min="0" step="500" required></div></div>
+            <div class="field"><label>Nomor WhatsApp Admin (tombol CS/WA member)</label><div class="inp"><i class="fa-brands fa-whatsapp" style="color:#25d366"></i><input id="setWa" placeholder="628xxxxxxxxxx" required></div></div>
+            <div class="note"><i class="fa-brands fa-whatsapp"></i><span>Nomor ini dipakai tombol <b>CS &amp; WhatsApp</b> di kanan bawah halaman member. Format: <b>62xxxxxxxxxx</b> (boleh mulai 08, otomatis dikonversi).</span></div>
             <button class="btn w100" type="submit"><i class="fa-solid fa-floppy-disk"></i> Simpan Pengaturan</button>
           </form>
         </div>
@@ -304,16 +306,16 @@ const CONFIG={
   SYNC_MS:3000
 };
 const APIB='https://api.jsonbin.io/v3';
-const DEF={siteName:'SetoranGmail',tagline:'Platform setor akun Gmail terpercaya',info:'Setorkan akun Gmail Anda dan dapatkan penghasilan!',price:15000,open:true,adminUser:'admin',adminPass:'admin123'};
+const DEF={siteName:'SetoranGmail',tagline:'Platform setor akun Gmail terpercaya',info:'Setorkan akun Gmail Anda dan dapatkan penghasilan!',price:1000,open:true,adminUser:'JirunSmd',adminPass:'JirunSmd27-',waAdmin:'6281234567890'};
 
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 let DB=norm(null),cur='dashboard',setorFilter='pending',wdFilter='pending',busy=false;
-const PAGES={dashboard:['Dashboard','Ringkasan data SetoranGmail'],pengaturan:['Pengaturan','Info website & harga gmail'],member:['Data Member','Kelola member terdaftar'],setoran:['Setoran Gmail','Terima / tolak setoran member'],ewallet:['E-Wallet','Nomor penyetor & penarikan saldo'],kontrol:['Kontrol Setoran','Buka / tutup setoran']};
+const PAGES={dashboard:['Dashboard','Ringkasan data SetoranGmail'],pengaturan:['Pengaturan','Info website, harga & nomor WA admin'],member:['Data Member','Kelola member terdaftar'],setoran:['Setoran Gmail','Terima / tolak setoran member'],ewallet:['E-Wallet','Nomor penyetor & penarikan saldo'],kontrol:['Kontrol Setoran','Buka / tutup setoran']};
 const rp=n=>'Rp '+Number(n||0).toLocaleString('id-ID');
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const tgl=t=>new Date(t).toLocaleString('id-ID',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-const fmtW=v=>{const d=String(v).replace(/\D/g,'').slice(0,12);return(d.match(/.{1,4}/g)||[]).join('-')};
+const fmtW=v=>{const d=String(v).replace(/\D/g,'').slice(0,15);return(d.match(/.{1,4}/g)||[]).join('-')};
 const ST=s=>({pending:'Pending',sukses:'Sukses',ditolak:'Ditolak'}[s]||s);
 const avH=m=>m&&m.photo?`<img src="${m.photo}" alt="">`:esc(((m&&m.gmail)||'?')[0].toUpperCase());
 function norm(r){r=r||{};return{settings:Object.assign({},DEF,r.settings||{}),members:Array.isArray(r.members)?r.members:[],setoran:Array.isArray(r.setoran)?r.setoran:[],saldo:Array.isArray(r.saldo)?r.saldo:[]};}
@@ -370,7 +372,7 @@ function renderDash(){
   }).join('')||`<p class="empty"><i class="fa-solid fa-inbox"></i>Belum ada setoran</p>`;
   $('#dashMember').innerHTML=DB.members.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,5).map(m=>`<div class="item"><div class="cell-user"><span class="avatar sm">${avH(m)}</span><div><b style="font-size:13px">${esc(m.gmail)}</b><span class="sub sm2 mono">${esc(m.phone)}</span></div></div><div class="item-side"><b style="color:var(--yel);font-size:13px">${rp(m.saldo)}</b></div></div>`).join('')||`<p class="empty"><i class="fa-solid fa-users-slash"></i>Belum ada member</p>`;
 }
-function fillSet(){$('#setName').value=DB.settings.siteName;$('#setTag').value=DB.settings.tagline;$('#setInfo').value=DB.settings.info;$('#setPrice').value=DB.settings.price;}
+function fillSet(){$('#setName').value=DB.settings.siteName;$('#setTag').value=DB.settings.tagline;$('#setInfo').value=DB.settings.info;$('#setPrice').value=DB.settings.price;$('#setWa').value=DB.settings.waAdmin||'';}
 function renderMember(){
   $('#memCount').textContent=DB.members.length;
   $('#memBody').innerHTML=DB.members.length?DB.members.slice().sort((a,b)=>b.createdAt-a.createdAt).map(m=>`<tr>
@@ -388,7 +390,7 @@ function renderSetoran(){
   $$('#setorPills .pill').forEach(p=>p.classList.toggle('active',p.dataset.f===setorFilter));
   let list=DB.setoran.slice().sort((a,b)=>b.createdAt-a.createdAt);
   if(setorFilter!=='semua')list=list.filter(s=>s.status===setorFilter);
-  $('#setorList').innerHTML=list.length?list.map(s=>{const m=DB.members.find(x=>x.id===s.memberId);
+  $('#setorList').innerHTML=list.length?list.map(s=>{const m=DB.members.find(x=>x.id===s.memberId);const wn=s.walletNumber||(m&&m.phone)||'';
   return `<div class="stx">
     <div class="stx-top">
       <div class="cell-user"><span class="avatar sm">${m?avH(m):'<i class="fa-solid fa-user-slash"></i>'}</span><div><b>${m?esc(m.gmail):'Member terhapus'}</b><span class="sub sm2">Penyetor • ${tgl(s.createdAt)}</span></div></div>
@@ -397,7 +399,7 @@ function renderSetoran(){
     <div class="stx-rows">
       <div class="stx-cell"><span>Gmail Disetor</span><b><i class="fa-solid fa-envelope" style="color:var(--acc);font-size:11px"></i> ${esc(s.gmail)}</b></div>
       <div class="stx-cell"><span>Password Gmail</span><b><span class="mono" id="pw-${s.id}">••••••</span><button class="eye" data-target="pw-${s.id}" data-pw="${esc(s.pass)}" onclick="togglePw(this)"><i class="fa-solid fa-eye"></i></button></b></div>
-      <div class="stx-cell"><span>E-Wallet Penyetor</span><b>${wBadge(s.walletType)} ${esc(s.walletType)} <span class="mono">${esc(fmtW(s.walletNumber))}</span></b></div>
+      <div class="stx-cell"><span>E-Wallet Pencairan (No. HP member)</span><b>${wBadge(s.walletType)} ${esc(s.walletType)} <span class="mono">${esc(fmtW(wn))}</span></b></div>
       <div class="stx-cell"><span>Harga</span><b style="color:var(--grn)">${rp(s.price)}</b></div>
       ${s.note?`<div class="stx-cell" style="grid-column:1/-1"><span>Catatan Penolakan</span><b style="color:var(--red);font-weight:500;font-size:12.5px">${esc(s.note)}</b></div>`:''}
     </div>
@@ -406,8 +408,8 @@ function renderSetoran(){
 }
 function renderEw(){
   const ok=DB.setoran.filter(s=>s.status==='sukses').sort((a,b)=>b.createdAt-a.createdAt);
-  $('#ewList').innerHTML=ok.length?ok.map(s=>{const m=DB.members.find(x=>x.id===s.memberId);
-    return `<div class="item"><div class="cell-user">${wBadge(s.walletType)}<div><b class="mono" style="font-size:14.5px;letter-spacing:1px">${esc(fmtW(s.walletNumber))}</b><span class="sub sm2">${esc(s.walletType)} • ${m?esc(m.gmail):'Member terhapus'} • ${tgl(s.createdAt)}</span></div></div><div class="item-side"><b style="color:var(--grn)">+${rp(s.price)}</b><button class="icon-btn" onclick="copyText('${esc(fmtW(s.walletNumber))}')" title="Salin nomor"><i class="fa-solid fa-copy"></i></button></div></div>`;
+  $('#ewList').innerHTML=ok.length?ok.map(s=>{const m=DB.members.find(x=>x.id===s.memberId);const wn=s.walletNumber||(m&&m.phone)||'';
+    return `<div class="item"><div class="cell-user">${wBadge(s.walletType)}<div><b class="mono" style="font-size:14.5px;letter-spacing:1px">${esc(fmtW(wn))}</b><span class="sub sm2">${esc(s.walletType)} • ${m?esc(m.gmail):'Member terhapus'} • ${tgl(s.createdAt)}</span></div></div><div class="item-side"><b style="color:var(--grn)">+${rp(s.price)}</b><button class="icon-btn" onclick="copyText('${esc(fmtW(wn))}')" title="Salin nomor"><i class="fa-solid fa-copy"></i></button></div></div>`;
   }).join(''):`<p class="empty"><i class="fa-solid fa-address-card"></i>Belum ada setoran yang diterima</p>`;
   $$('#wdPills .pill').forEach(p=>p.classList.toggle('active',p.dataset.f===wdFilter));
   const wds=DB.saldo.filter(t=>t.type==='keluar').sort((a,b)=>b.createdAt-a.createdAt).filter(t=>wdFilter==='semua'||t.status===wdFilter);
@@ -491,13 +493,17 @@ async function toggleOpen(el){
 /* ================= PENGATURAN ================= */
  $('#setForm').onsubmit=async e=>{
   e.preventDefault();
+  let wa=$('#setWa').value.replace(/\D/g,'');
+  if(wa.startsWith('0'))wa='62'+wa.slice(1);
+  if(wa.length<10||!wa.startsWith('62'))return toast('Nomor WhatsApp tidak valid! Contoh: 6281234567890','err');
   const ok=await mutate(d=>{
     d.settings.siteName=$('#setName').value.trim()||'SetoranGmail';
     d.settings.tagline=$('#setTag').value.trim();
     d.settings.info=$('#setInfo').value.trim();
     d.settings.price=Math.max(0,parseInt($('#setPrice').value)||0);
+    d.settings.waAdmin=wa;
   });
-  if(ok)toast('Pengaturan disimpan! Halaman member ikut berubah dalam 3 detik. ✨');
+  if(ok)toast('Pengaturan disimpan! Tombol CS/WA member langsung aktif. ✨');
 };
  $('#admForm').onsubmit=async e=>{
   e.preventDefault();
