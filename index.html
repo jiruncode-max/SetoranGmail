@@ -357,7 +357,7 @@ main{margin-left:0;padding:20px 16px 110px}
 
   <!-- ===== TOMBOL CS & WA (MUNCUL SETELAH LOGIN) ===== -->
   <div class="fab-wrap">
-    <button class="fab fab-cs" onclick="toggleCS()" title="Chat CS"><i class="fa-solid fa-headset"></i><span class="fab-tip">Chat CS Admin</span><span class="fab-badge" id="csBadge">0</span></button>
+    <button class="fab fab-cs" onclick="toggleCS()" title="Chat CS"><i class="fa-solid fa-headset"></i><span class="fab-tip"></span><span class="fab-badge" id="csBadge">0</span></button>
     <a class="fab fab-wa" id="fabWa" href="#" target="_blank" rel="noopener" title="Gabung Saluran WA" onclick="if(this.dataset.on!=='1'){event.preventDefault();toast('Saluran WhatsApp belum diatur admin.','err')}"><i class="fa-brands fa-whatsapp"></i><span class="fab-tip"></span></a>
   </div>
 
@@ -386,11 +386,11 @@ const CONFIG={
   SYNC_MS:3000
 };
 const APIB='https://api.jsonbin.io/v3';
-const DEF={siteName:'SetoranGmail',tagline:'Platform setor akun Gmail terpercaya',info:'Setorkan akun Gmail Anda dan dapatkan penghasilan! Admin akan memverifikasi setoran, lalu saldo langsung masuk ke akun Anda. Saldo bisa ditarik ke OVO, DANA, atau GoPay mulai dari Rp 1.000.',price:1000,open:true,adminUser:'JirunSmd',adminPass:'JirunSmd27-',waChannel:''};
+const DEF={siteName:'StoranGmail',tagline:'Platform Setor Akun Gmail Terpercaya',info:'Setorkan akun Gmail Anda dan dapatkan penghasilan! Admin akan memverifikasi setoran, lalu saldo langsung masuk ke akun Anda. Saldo bisa ditarik ke OVO, DANA, atau GoPay mulai dari Rp 1.000.',price:1000,open:true,adminUser:'JirunSmd',adminPass:'JirunSmd27-',waChannel:''};
 
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 let DB=norm(null),ME=null,cur='StoranGmail',busy=false;
-const PAGES={beranda:['StoranGmail','TikTok Resmi : https://www.tiktok.com/@storangmail'],setor:['Setor','Setorkan Akun Gmail Kamu'],saldo:['Saldo','Cek & tarik saldo kamu'],riwayat:['Riwayat','Status Setoran Kamu'],akun:['Akun','Kelola profil & password']};
+const PAGES={beranda:['StoranGmail','TikTok Resmi : storangmail'],setor:['Setor','Setorkan Akun Gmail Kamu'],saldo:['Saldo','Cek & Tarik Saldo Kamu'],riwayat:['Riwayat','Status Setoran Kamu'],akun:['Akun','Kelola profil & password']};
 const rp=n=>'Rp '+Number(n||0).toLocaleString('id-ID');
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
