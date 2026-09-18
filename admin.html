@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SetoranGmail — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+:root{--bg:#0a0d1a;--bg2:#0f1322;--card:#141a30;--line:#262f52;--txt:#eef1fb;--mut:#8b93b5;--acc:#7c5cff;--acc2:#4f8cff;--grn:#22c55e;--red:#f0475a;--yel:#f5b942;--grad:linear-gradient(135deg,#7c5cff,#4f8cff)}
+body{background:var(--bg);color:var(--txt);min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(600px 400px at 85% -10%,rgba(124,92,255,.16),transparent),radial-gradient(600px 400px at -10% 110%,rgba(79,140,255,.13),transparent);pointer-events:none}
+.hidden{display:none!important}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+#loader{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:998}
+.spinner{width:52px;height:52px;border:4px solid var(--line);border-top-color:var(--acc);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#loader p{font-size:13px;color:var(--mut)}
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;z-index:1}
+.auth-card{width:100%;max-width:420px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:36px 32px;position:relative;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.auth-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(135deg,#f43f5e,#f97316)}
+.brand{text-align:center}
+.logo{width:64px;height:64px;border-radius:20px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;box-shadow:0 10px 28px rgba(124,92,255,.45);margin:0 auto 14px}
+.logo.warn{background:linear-gradient(135deg,#f43f5e,#f97316);box-shadow:0 10px 28px rgba(244,63,94,.45)}
+.logo.sm{width:38px;height:38px;font-size:15px;margin:0;box-shadow:none;border-radius:12px}
+.brand h1{font-size:22px;margin-bottom:2px}
+.brand p{font-size:12px;color:var(--mut)}
+.auth-foot{text-align:center;font-size:11px;color:var(--mut);margin-top:18px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11.5px;color:var(--mut);margin-bottom:6px;font-weight:600}
+.inp{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:0 14px;transition:.2s}
+.inp:focus-within{border-color:var(--acc);box-shadow:0 0 0 3px rgba(124,92,255,.15)}
+.inp i{color:var(--mut);font-size:13px}
+.inp input{flex:1;background:none;border:none;outline:none;color:var(--txt);padding:13px 0;font-size:13.5px;font-family:inherit;min-width:0}
+.inp input::placeholder{color:#566084}
+textarea{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:12px;color:var(--txt);padding:12px 14px;font-size:13px;font-family:inherit;outline:none;resize:vertical;min-height:110px}
+textarea:focus{border-color:var(--acc)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--grad);color:#fff;border:none;padding:12px 18px;border-radius:12px;font-weight:600;font-size:13.5px;cursor:pointer;transition:.25s;font-family:inherit}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(124,92,255,.4)}
+.btn-sm{padding:9px 13px;font-size:12px;border-radius:10px}
+.btn-ok{background:linear-gradient(135deg,#16a34a,#22c55e)}
+.btn-no{background:linear-gradient(135deg,#e11d48,#f0475a)}
+.btn-no:hover{box-shadow:0 10px 26px rgba(240,71,90,.4)}
+.w100{width:100%}
+.app{display:flex;min-height:100vh;position:relative;z-index:1}
+.sidebar{width:256px;position:fixed;top:0;bottom:0;left:0;background:var(--bg2);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:26px 16px 20px;z-index:50}
+.side-brand{display:flex;align-items:center;gap:12px;padding:0 8px 24px}
+.side-brand span{font-weight:700;font-size:16px}
+.sidebar nav{flex:1;display:flex;flex-direction:column;gap:4px}
+.nav-btn{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border:none;background:none;color:var(--mut);border-radius:12px;cursor:pointer;font-size:13px;font-weight:500;transition:.2s;font-family:inherit;text-align:left}
+.nav-btn i{width:18px;text-align:center}
+.nav-btn:hover{background:var(--card);color:var(--txt)}
+.nav-btn.active{background:var(--grad);color:#fff;box-shadow:0 6px 18px rgba(124,92,255,.35)}
+.side-user{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.side-user-info{flex:1;min-width:0}
+.side-user-info b{font-size:12.5px;display:block}
+.side-user-info span{font-size:10.5px;color:var(--mut);display:block}
+main{flex:1;margin-left:256px;padding:24px 28px 100px}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;gap:14px;flex-wrap:wrap}
+.topbar h2{font-size:22px;font-weight:700}
+.topbar .sub{font-size:12.5px}
+.live{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--mut);background:var(--card);border:1px solid var(--line);padding:9px 14px;border-radius:999px}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--yel);animation:pulse 1.5s infinite}
+.live-dot.off{animation:none}
+@keyframes pulse{50%{opacity:.25}}
+.icon-btn{width:34px;height:34px;border-radius:10px;background:var(--bg2);border:1px solid var(--line);color:var(--mut);cursor:pointer;transition:.2s;flex-shrink:0;font-size:13px}
+.icon-btn:hover{color:var(--acc);border-color:var(--acc)}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;overflow:hidden;flex-shrink:0;color:#fff}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.avatar.sm{width:36px;height:36px;font-size:13px}
+.page{animation:fade .35s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px}
+.card-title{font-size:15px;font-weight:600;display:flex;align-items:center;gap:9px;margin-bottom:16px}
+.card-title i{color:var(--acc)}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(185px,1fr))}
+.stat{display:flex;align-items:center;gap:16px}
+.stat-ic{width:52px;height:52px;border-radius:16px;background:rgba(124,92,255,.15);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--acc);flex-shrink:0}
+.stat span{font-size:11.5px;color:var(--mut)}
+.stat b{font-size:20px;display:block}
+.sub{color:var(--mut);font-size:13px;line-height:1.7}
+.sm2{font-size:11px;display:block}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:5px 12px;border-radius:999px;white-space:nowrap}
+.badge.pending{background:rgba(245,185,66,.15);color:var(--yel)}
+.badge.sukses{background:rgba(34,197,94,.15);color:var(--grn)}
+.badge.ditolak{background:rgba(240,71,90,.15);color:var(--red)}
+.item{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:13px 15px;margin-bottom:10px;flex-wrap:wrap}
+.item-side{display:flex;align-items:center;gap:12px;margin-left:auto}
+.cell-user{display:flex;align-items:center;gap:10px}
+.cell-user b{font-size:13.5px}
+.empty{text-align:center;color:var(--mut);font-size:13px;padding:28px 10px}
+.empty i{font-size:30px;display:block;margin-bottom:10px;opacity:.5}
+.note{display:flex;gap:10px;background:rgba(79,140,255,.08);border:1px solid rgba(79,140,255,.25);border-radius:12px;padding:12px 14px;font-size:12.5px;color:var(--mut);line-height:1.6}
+.note i{color:var(--acc2);margin-top:2px}
+.mono{font-family:'Courier New',monospace;letter-spacing:.5px}
+.eye{background:none;border:none;color:var(--mut);cursor:pointer;font-size:12px;padding:2px 4px}
+.eye:hover{color:var(--acc)}
+.act{display:flex;gap:8px;flex-wrap:wrap}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.pill{padding:8px 16px;border-radius:999px;background:var(--bg2);border:1px solid var(--line);color:var(--mut);font-size:12px;font-weight:600;cursor:pointer;transition:.2s;font-family:inherit}
+.pill.active{background:var(--grad);color:#fff;border-color:transparent}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;color:var(--mut);font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:hover td{background:rgba(124,92,255,.04)}
+.w-badge{width:38px;height:38px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex-shrink:0}
+.w-ovo{background:rgba(142,108,255,.18);color:#a78bfa}
+.w-dana{background:rgba(56,160,255,.18);color:#38a0ff}
+.w-gopay{background:rgba(0,201,141,.15);color:#00c98d}
+.stx{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+.stx-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.stx-rows{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:6px}
+.stx-cell{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.stx-cell span{font-size:9.5px;color:var(--mut);display:block;margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px}
+.stx-cell b{font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;flex-wrap:wrap;word-break:break-all}
+.switch{position:relative;display:inline-block;width:64px;height:34px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:var(--bg2);border:1px solid var(--line);border-radius:999px;cursor:pointer;transition:.3s}
+.slider::before{content:'';position:absolute;width:24px;height:24px;left:4px;top:4px;background:var(--mut);border-radius:50%;transition:.3s}
+.switch input:checked+.slider{background:var(--grad);border-color:transparent}
+.switch input:checked+.slider::before{transform:translateX(30px);background:#fff}
+.kontrol-card{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.kontrol-card h3{font-size:19px;margin-bottom:6px}
+#toast{position:fixed;top:20px;right:20px;z-index:999;display:flex;flex-direction:column;gap:10px}
+.toast{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);padding:13px 18px;border-radius:12px;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.5);animation:tin .3s;display:flex;align-items:center;gap:10px;max-width:330px;transition:.3s}
+.toast.ok i{color:var(--grn)}.toast.err{border-left-color:var(--red)}.toast.err i{color:var(--red)}
+@keyframes tin{from{transform:translateX(40px);opacity:0}}
+.bottomnav{display:none}
+@media(max-width:880px){
+.sidebar{display:none}
+main{margin-left:0;padding:20px 14px 110px}
+.bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;background:rgba(15,19,34,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:60;padding:8px}
+.bottomnav button{flex:1;background:none;border:none;color:var(--mut);font-size:9px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 1px;cursor:pointer;border-radius:12px;font-family:inherit}
+.bottomnav button i{font-size:16px}
+.bottomnav button.active{color:#a58bff}
+.auth-card{padding:28px 22px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader"><div class="spinner"></div><p>Menghubungkan ke BINS ☁️...</p></div>
+
+<!-- ========== LOGIN ADMIN ========== -->
+<div id="adminAuth" class="auth-wrap hidden">
+  <div class="auth-card">
+    <div class="brand">
+      <div class="logo warn"><i class="fa-solid fa-shield-halved"></i></div>
+      <h1 id="authSiteName">SetoranGmail</h1>
+      <p>Panel Admin — Login</p>
+    </div>
+    <form id="adminForm" style="margin-top:24px">
+      <div class="field"><label>Username Admin</label><div class="inp"><i class="fa-solid fa-user-shield"></i><input id="adUser" placeholder="admin" required></div></div>
+      <div class="field"><label>Password Admin</label><div class="inp"><i class="fa-solid fa-lock"></i><input type="password" id="adPass" placeholder="••••••••" required></div></div>
+      <button class="btn w100" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Masuk Panel Admin</button>
+    </form>
+    <p class="auth-foot">Login default: <b>admin</b> / <b>admin123</b></p>
+  </div>
+</div>
+
+<!-- ========== APLIKASI ADMIN ========== -->
+<div id="app" class="app hidden">
+  <aside class="sidebar">
+    <div class="side-brand"><div class="logo sm warn"><i class="fa-solid fa-shield-halved"></i></div><span id="sideSiteName">SetoranGmail</span></div>
+    <nav>
+      <button class="nav-btn active" data-page="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
+      <button class="nav-btn" data-page="pengaturan"><i class="fa-solid fa-gear"></i> Pengaturan</button>
+      <button class="nav-btn" data-page="member"><i class="fa-solid fa-users"></i> Data Member</button>
+      <button class="nav-btn" data-page="setoran"><i class="fa-solid fa-inbox"></i> Setoran Masuk</button>
+      <button class="nav-btn" data-page="ewallet"><i class="fa-solid fa-credit-card"></i> E-Wallet</button>
+      <button class="nav-btn" data-page="kontrol"><i class="fa-solid fa-power-off"></i> Kontrol</button>
+    </nav>
+    <div class="side-user" style="margin-top:12px">
+      <div class="avatar sm" style="background:linear-gradient(135deg,#f43f5e,#f97316)"><i class="fa-solid fa-user-shield" style="font-size:14px"></i></div>
+      <div class="side-user-info"><b>Administrator</b><span>Akses Penuh</span></div>
+      <button class="icon-btn" onclick="logout()" title="Keluar"><i class="fa-solid fa-right-from-bracket"></i></button>
+    </div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div><h2 id="pageTitle">Dashboard</h2><p class="sub" id="pageSub">Ringkasan data</p></div>
+      <div class="topbar-right">
+        <div class="live"><span class="live-dot off" id="syncDot" style="background:var(--yel)"></span><span id="syncText">Menghubungkan…</span></div>
+      </div>
+    </header>
+
+    <!-- DASHBOARD -->
+    <section id="page-dashboard" class="page">
+      <div class="grid g4">
+        <div class="card stat"><div class="stat-ic"><i class="fa-solid fa-users"></i></div><div><span>Total Member</span><b id="stMem">0</b></div></div>
+        <div class="card stat"><div class="stat-ic" style="color:var(--yel);background:rgba(245,185,66,.13)"><i class="fa-solid fa-hourglass-half"></i></div><div><span>Setoran Pending</span><b id="stPend">0</b></div></div>
+        <div class="card stat"><div class="stat-ic" style="color:var(--grn);background:rgba(34,197,94,.13)"><i class="fa-solid fa-circle-check"></i></div><div><span>Setoran Sukses</span><b id="stSuk">0</b></div></div>
+        <div class="card stat"><div class="stat-ic" style="color:#38a0ff;background:rgba(56,160,255,.13)"><i class="fa-solid fa-sack-dollar"></i></div><div><span>Total Dibayar</span><b id="stPaid">Rp 0</b></div></div>
+      </div>
+      <div class="grid g2" style="margin-top:16px;align-items:start">
+        <div class="card"><h4 class="card-title"><i class="fa-solid fa-inbox"></i> Setoran Terbaru</h4><div id="dashSetoran"></div></div>
+        <div class="card"><h4 class="card-title"><i class="fa-solid fa-user-plus"></i> Member Terbaru</h4><div id="dashMember"></div></div>
+      </div>
+    </section>
+
+    <!-- PENGATURAN -->
+    <section id="page-pengaturan" class="page hidden">
+      <div class="grid g2" style="align-items:start">
+        <div class="card">
+          <h4 class="card-title"><i class="fa-solid fa-gear"></i> Info Website (tampil di halaman member)</h4>
+          <form id="setForm">
+            <div class="field"><label>Nama Website</label><div class="inp"><i class="fa-solid fa-signature"></i><input id="setName" placeholder="SetoranGmail" required></div></div>
+            <div class="field"><label>Tagline Singkat</label><div class="inp"><i class="fa-solid fa-heading"></i><input id="setTag" placeholder="Tagline di beranda member"></div></div>
+            <div class="field"><label>Informasi Website</label><textarea id="setInfo" placeholder="Info lengkap yang tampil di Beranda member..."></textarea></div>
+            <div class="field"><label>Harga per 1 Gmail (Rp)</label><div class="inp"><i class="fa-solid fa-tag"></i><input type="number" id="setPrice" min="0" step="500" required></div></div>
+            <button class="btn w100" type="submit"><i class="fa-solid fa-floppy-disk"></i> Simpan Pengaturan</button>
+          </form>
+        </div>
+        <div class="card">
+          <h4 class="card-title"><i class="fa-solid fa-user-shield"></i> Akun Admin</h4>
+          <form id="admForm">
+            <div class="field"><label>Username Baru</label><div class="inp"><i class="fa-solid fa-user"></i><input id="admUser" placeholder="Kosongkan jika tidak diubah"></div></div>
+            <div class="field"><label>Password Baru</label><div class="inp"><i class="fa-solid fa-lock"></i><input type="password" id="admPass" placeholder="Kosongkan jika tidak diubah"></div></div>
+            <div class="note"><i class="fa-solid fa-shield-halved"></i><span>Ubah username & password default agar aman. Perubahan langsung aktif.</span></div>
+            <button class="btn w100" type="submit"><i class="fa-solid fa-key"></i> Simpan Akun Admin</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- MEMBER -->
+    <section id="page-member" class="page hidden">
+      <div class="card">
+        <h4 class="card-title"><i class="fa-solid fa-users"></i> Data Member Terdaftar (<span id="memCount">0</span>)</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Member</th><th>No. HP</th><th>Saldo</th><th>Password</th><th>Aksi</th></tr></thead>
+            <tbody id="memBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SETORAN -->
+    <section id="page-setoran" class="page hidden">
+      <div class="pills" id="setorPills">
+        <button class="pill active" data-f="pending">⏳ Pending</button>
+        <button class="pill" data-f="sukses">✅ Sukses</button>
+        <button class="pill" data-f="ditolak">❌ Ditolak</button>
+        <button class="pill" data-f="semua">📋 Semua</button>
+      </div>
+      <div id="setorList"></div>
+    </section>
+
+    <!-- E-WALLET -->
+    <section id="page-ewallet" class="page hidden">
+      <div class="card">
+        <h4 class="card-title"><i class="fa-solid fa-address-card"></i> Nomor E-Wallet Penyetor (Setoran Diterima)</h4>
+        <div id="ewList"></div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <h4 class="card-title"><i class="fa-solid fa-money-bill-transfer"></i> Permintaan Penarikan Saldo</h4>
+        <div class="pills" id="wdPills">
+          <button class="pill active" data-f="pending">⏳ Pending</button>
+          <button class="pill" data-f="sukses">✅ Sukses</button>
+          <button class="pill" data-f="ditolak">❌ Ditolak</button>
+          <button class="pill" data-f="semua">📋 Semua</button>
+        </div>
+        <div id="wdList"></div>
+      </div>
+    </section>
+
+    <!-- KONTROL -->
+    <section id="page-kontrol" class="page hidden">
+      <div class="card kontrol-card">
+        <div>
+          <h3><i class="fa-solid fa-power-off" style="color:var(--acc)"></i> Status Setoran Gmail</h3>
+          <p class="sub" id="kontrolText"></p>
+        </div>
+        <label class="switch"><input type="checkbox" id="openToggle" onchange="toggleOpen(this)"><span class="slider"></span></label>
+      </div>
+      <div class="note" style="margin-top:16px"><i class="fa-solid fa-triangle-exclamation"></i><span>Gunakan tombol ini untuk <b>MENGHENTIKAN SETORAN</b> jika kuota sudah penuh. Saat ditutup, form setoran di halaman member otomatis terkunci maksimal dalam 3 detik.</span></div>
+    </section>
+  </main>
+
+  <nav class="bottomnav">
+    <button class="active" data-page="dashboard"><i class="fa-solid fa-chart-pie"></i>Dash</button>
+    <button data-page="pengaturan"><i class="fa-solid fa-gear"></i>Setting</button>
+    <button data-page="member"><i class="fa-solid fa-users"></i>Member</button>
+    <button data-page="setoran"><i class="fa-solid fa-inbox"></i>Setoran</button>
+    <button data-page="ewallet"><i class="fa-solid fa-credit-card"></i>E-Wallet</button>
+    <button data-page="kontrol"><i class="fa-solid fa-power-off"></i>Kontrol</button>
+  </nav>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ================= KONFIGURASI BINS ================= */
+const CONFIG={
+  BIN_ID:'6aad210effd5d1605315a77c',
+  MASTER_KEY:'$2a$10$2iiub9wpd/6zf.qoNEeSnurohllcdkBeVuzlfXhMVvznn8DMP0rWW',
+  SYNC_MS:3000
+};
+const APIB='https://api.jsonbin.io/v3';
+const DEF={siteName:'SetoranGmail',tagline:'Platform setor akun Gmail terpercaya',info:'Setorkan akun Gmail Anda dan dapatkan penghasilan!',price:15000,open:true,adminUser:'admin',adminPass:'admin123'};
+
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+let DB=norm(null),cur='dashboard',setorFilter='pending',wdFilter='pending',busy=false;
+const PAGES={dashboard:['Dashboard','Ringkasan data SetoranGmail'],pengaturan:['Pengaturan','Info website & harga gmail'],member:['Data Member','Kelola member terdaftar'],setoran:['Setoran Gmail','Terima / tolak setoran member'],ewallet:['E-Wallet','Nomor penyetor & penarikan saldo'],kontrol:['Kontrol Setoran','Buka / tutup setoran']};
+const rp=n=>'Rp '+Number(n||0).toLocaleString('id-ID');
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const tgl=t=>new Date(t).toLocaleString('id-ID',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+const fmtW=v=>{const d=String(v).replace(/\D/g,'').slice(0,12);return(d.match(/.{1,4}/g)||[]).join('-')};
+const ST=s=>({pending:'Pending',sukses:'Sukses',ditolak:'Ditolak'}[s]||s);
+const avH=m=>m&&m.photo?`<img src="${m.photo}" alt="">`:esc(((m&&m.gmail)||'?')[0].toUpperCase());
+function norm(r){r=r||{};return{settings:Object.assign({},DEF,r.settings||{}),members:Array.isArray(r.members)?r.members:[],setoran:Array.isArray(r.setoran)?r.setoran:[],saldo:Array.isArray(r.saldo)?r.saldo:[]};}
+
+/* ================= API BINS ================= */
+async function readDB(){
+  const r=await fetch(APIB+'/b/'+CONFIG.BIN_ID+'/latest',{headers:{'X-Master-Key':CONFIG.MASTER_KEY}});
+  if(!r.ok)throw new Error(r.status===429?'RATE':'READ');
+  return norm((await r.json()).record);
+}
+async function writeDB(data){
+  const r=await fetch(APIB+'/b/'+CONFIG.BIN_ID,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':CONFIG.MASTER_KEY},body:JSON.stringify(data)});
+  if(!r.ok)throw new Error(r.status===429?'RATE':'WRITE');
+}
+async function mutate(fn){
+  if(busy)return false;
+  busy=true;setSync('saving');
+  try{
+    const fresh=await readDB();
+    const err=fn(fresh);
+    if(err){setSync('online');toast(err,'err');return false;}
+    await writeDB(fresh);
+    DB=fresh;setSync('online');refreshUI();
+    return true;
+  }catch(e){
+    setSync('offline');
+    toast(e.message==='RATE'?'Batas request BINS tercapai, tunggu sebentar...':'Koneksi ke BINS gagal! Cek internet & coba lagi.','err');
+    return false;
+  }finally{busy=false;}
+}
+
+/* ================= UI DASAR ================= */
+function toast(msg,type='ok'){const t=document.createElement('div');t.className='toast '+type;t.innerHTML=`<i class="fa-solid ${type==='err'?'fa-circle-xmark':'fa-circle-check'}"></i><span>${msg}</span>`;$('#toast').appendChild(t);setTimeout(()=>{t.style.opacity=0;t.style.transform='translateX(40px)';setTimeout(()=>t.remove(),300)},3200);}
+function setSync(s){const d=$('#syncDot'),t=$('#syncText');if(!d)return;d.classList.toggle('off',s==='offline');d.style.background=s==='offline'?'var(--red)':s==='saving'?'var(--yel)':'var(--grn)';t.textContent=s==='offline'?'Offline':s==='saving'?'Menyimpan...':'Live • sync 3s';}
+function applyBrand(){$('#authSiteName').textContent=DB.settings.siteName;$('#sideSiteName').textContent=DB.settings.siteName;document.title=DB.settings.siteName+' — Admin';}
+function wBadge(t){const c=String(t||'').toLowerCase();const cls=c==='ovo'?'w-ovo':c==='dana'?'w-dana':c==='gopay'?'w-gopay':'';return `<span class="w-badge ${cls}">${esc(String(t||'?')[0].toUpperCase())}</span>`;}
+function togglePw(btn){const el=document.getElementById(btn.dataset.target);if(!el)return;const show=el.dataset.shown!=='1';el.dataset.shown=show?'1':'0';el.textContent=show?btn.dataset.pw:'••••••';btn.innerHTML=`<i class="fa-solid ${show?'fa-eye-slash':'fa-eye'}"></i>`;}
+function copyText(t){navigator.clipboard.writeText(t).then(()=>toast('Nomor disalin! 📋')).catch(()=>toast('Gagal menyalin nomor','err'));}
+function refreshUI(){applyBrand();if(!$('#app').classList.contains('hidden'))render(cur);}
+
+/* ================= NAVIGASI ================= */
+function navigate(p){cur=p;$$('.page').forEach(x=>x.classList.add('hidden'));$('#page-'+p).classList.remove('hidden');$$('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===p));$('#pageTitle').textContent=PAGES[p][0];$('#pageSub').textContent=PAGES[p][1];if(p==='pengaturan')fillSet();render(p);}
+function render(p){if(p==='dashboard')renderDash();else if(p==='member')renderMember();else if(p==='setoran')renderSetoran();else if(p==='ewallet')renderEw();else if(p==='kontrol')renderKontrol();}
+ $$('[data-page]').forEach(b=>b.onclick=()=>navigate(b.dataset.page));
+
+/* ================= RENDER ================= */
+function renderDash(){
+  $('#stMem').textContent=DB.members.length;
+  $('#stPend').textContent=DB.setoran.filter(s=>s.status==='pending').length;
+  $('#stSuk').textContent=DB.setoran.filter(s=>s.status==='sukses').length;
+  $('#stPaid').textContent=rp(DB.setoran.filter(s=>s.status==='sukses').reduce((a,b)=>a+b.price,0));
+  $('#dashSetoran').innerHTML=DB.setoran.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,5).map(s=>{const m=DB.members.find(x=>x.id===s.memberId);
+    return `<div class="item"><div class="cell-user"><span class="avatar sm">${m?avH(m):'<i class="fa-solid fa-user-slash"></i>'}</span><div><b style="font-size:13px">${esc(s.gmail)}</b><span class="sub sm2">${m?esc(m.gmail):'-'} • ${tgl(s.createdAt)}</span></div></div><div class="item-side"><span class="badge ${s.status}">${ST(s.status)}</span></div></div>`;
+  }).join('')||`<p class="empty"><i class="fa-solid fa-inbox"></i>Belum ada setoran</p>`;
+  $('#dashMember').innerHTML=DB.members.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,5).map(m=>`<div class="item"><div class="cell-user"><span class="avatar sm">${avH(m)}</span><div><b style="font-size:13px">${esc(m.gmail)}</b><span class="sub sm2 mono">${esc(m.phone)}</span></div></div><div class="item-side"><b style="color:var(--yel);font-size:13px">${rp(m.saldo)}</b></div></div>`).join('')||`<p class="empty"><i class="fa-solid fa-users-slash"></i>Belum ada member</p>`;
+}
+function fillSet(){$('#setName').value=DB.settings.siteName;$('#setTag').value=DB.settings.tagline;$('#setInfo').value=DB.settings.info;$('#setPrice').value=DB.settings.price;}
+function renderMember(){
+  $('#memCount').textContent=DB.members.length;
+  $('#memBody').innerHTML=DB.members.length?DB.members.slice().sort((a,b)=>b.createdAt-a.createdAt).map(m=>`<tr>
+    <td><div class="cell-user"><span class="avatar sm">${avH(m)}</span><div><b>${esc(m.gmail)}</b><span class="sub sm2">Daftar ${tgl(m.createdAt)}</span></div></div></td>
+    <td class="mono">${esc(m.phone)}</td>
+    <td><b style="color:var(--yel)">${rp(m.saldo)}</b></td>
+    <td><span class="mono" id="pw-${m.id}">••••••</span><button class="eye" data-target="pw-${m.id}" data-pw="${esc(m.pass)}" onclick="togglePw(this)"><i class="fa-solid fa-eye"></i></button></td>
+    <td><div class="act">
+      <button class="btn btn-sm" onclick="editSaldo('${m.id}')" title="Ubah saldo"><i class="fa-solid fa-coins"></i> Saldo</button>
+      <button class="btn btn-sm" onclick="resetPass('${m.id}')" title="Reset password"><i class="fa-solid fa-key"></i></button>
+      <button class="btn btn-sm btn-no" onclick="delMember('${m.id}')" title="Hapus member"><i class="fa-solid fa-trash"></i></button>
+    </div></td></tr>`).join(''):`<tr><td colspan="5"><p class="empty"><i class="fa-solid fa-users-slash"></i>Belum ada member terdaftar</p></td></tr>`;
+}
+function renderSetoran(){
+  $$('#setorPills .pill').forEach(p=>p.classList.toggle('active',p.dataset.f===setorFilter));
+  let list=DB.setoran.slice().sort((a,b)=>b.createdAt-a.createdAt);
+  if(setorFilter!=='semua')list=list.filter(s=>s.status===setorFilter);
+  $('#setorList').innerHTML=list.length?list.map(s=>{const m=DB.members.find(x=>x.id===s.memberId);
+  return `<div class="stx">
+    <div class="stx-top">
+      <div class="cell-user"><span class="avatar sm">${m?avH(m):'<i class="fa-solid fa-user-slash"></i>'}</span><div><b>${m?esc(m.gmail):'Member terhapus'}</b><span class="sub sm2">Penyetor • ${tgl(s.createdAt)}</span></div></div>
+      <span class="badge ${s.status}">${ST(s.status)}</span>
+    </div>
+    <div class="stx-rows">
+      <div class="stx-cell"><span>Gmail Disetor</span><b><i class="fa-solid fa-envelope" style="color:var(--acc);font-size:11px"></i> ${esc(s.gmail)}</b></div>
+      <div class="stx-cell"><span>Password Gmail</span><b><span class="mono" id="pw-${s.id}">••••••</span><button class="eye" data-target="pw-${s.id}" data-pw="${esc(s.pass)}" onclick="togglePw(this)"><i class="fa-solid fa-eye"></i></button></b></div>
+      <div class="stx-cell"><span>E-Wallet Penyetor</span><b>${wBadge(s.walletType)} ${esc(s.walletType)} <span class="mono">${esc(fmtW(s.walletNumber))}</span></b></div>
+      <div class="stx-cell"><span>Harga</span><b style="color:var(--grn)">${rp(s.price)}</b></div>
+      ${s.note?`<div class="stx-cell" style="grid-column:1/-1"><span>Catatan Penolakan</span><b style="color:var(--red);font-weight:500;font-size:12.5px">${esc(s.note)}</b></div>`:''}
+    </div>
+    ${s.status==='pending'?`<div class="act" style="margin-top:10px"><button class="btn btn-sm btn-ok" onclick="acceptSetoran('${s.id}')"><i class="fa-solid fa-check"></i> Terima Setoran</button><button class="btn btn-sm btn-no" onclick="rejectSetoran('${s.id}')"><i class="fa-solid fa-xmark"></i> Tolak</button></div>`:''}
+  </div>`}).join(''):`<div class="card"><p class="empty"><i class="fa-solid fa-inbox"></i>Tidak ada setoran pada kategori ini</p></div>`;
+}
+function renderEw(){
+  const ok=DB.setoran.filter(s=>s.status==='sukses').sort((a,b)=>b.createdAt-a.createdAt);
+  $('#ewList').innerHTML=ok.length?ok.map(s=>{const m=DB.members.find(x=>x.id===s.memberId);
+    return `<div class="item"><div class="cell-user">${wBadge(s.walletType)}<div><b class="mono" style="font-size:14.5px;letter-spacing:1px">${esc(fmtW(s.walletNumber))}</b><span class="sub sm2">${esc(s.walletType)} • ${m?esc(m.gmail):'Member terhapus'} • ${tgl(s.createdAt)}</span></div></div><div class="item-side"><b style="color:var(--grn)">+${rp(s.price)}</b><button class="icon-btn" onclick="copyText('${esc(fmtW(s.walletNumber))}')" title="Salin nomor"><i class="fa-solid fa-copy"></i></button></div></div>`;
+  }).join(''):`<p class="empty"><i class="fa-solid fa-address-card"></i>Belum ada setoran yang diterima</p>`;
+  $$('#wdPills .pill').forEach(p=>p.classList.toggle('active',p.dataset.f===wdFilter));
+  const wds=DB.saldo.filter(t=>t.type==='keluar').sort((a,b)=>b.createdAt-a.createdAt).filter(t=>wdFilter==='semua'||t.status===wdFilter);
+  $('#wdList').innerHTML=wds.length?wds.map(t=>{const m=DB.members.find(x=>x.id===t.memberId);
+    return `<div class="item"><div class="cell-user">${wBadge(t.metode)}<div><b class="mono" style="font-size:14px">${esc(t.nomor)}</b><span class="sub sm2">${esc(t.metode)} • ${m?esc(m.gmail):'-'} • ${tgl(t.createdAt)}</span></div></div><div class="item-side"><span class="badge ${t.status}">${ST(t.status)}</span><b style="color:var(--yel)">−${rp(t.jumlah)}</b>${t.status==='pending'?`<button class="btn btn-sm btn-ok" onclick="approveWd('${t.id}')" title="Setujui"><i class="fa-solid fa-check"></i></button><button class="btn btn-sm btn-no" onclick="rejectWd('${t.id}')" title="Tolak"><i class="fa-solid fa-xmark"></i></button>`:''}</div></div>`;
+  }).join(''):`<p class="empty"><i class="fa-solid fa-money-bill-transfer"></i>Tidak ada data penarikan</p>`;
+}
+function renderKontrol(){$('#openToggle').checked=!!DB.settings.open;$('#kontrolText').innerHTML=DB.settings.open?'Status saat ini: <b style="color:var(--grn)">DIBUKA</b> — member bisa melakukan setoran gmail.':'Status saat ini: <b style="color:var(--red)">DITUTUP</b> — setoran dihentikan karena kuota penuh.';}
+
+/* ================= AKSI ADMIN ================= */
+async function acceptSetoran(id){
+  const s0=DB.setoran.find(x=>x.id===id);if(!s0)return;
+  const ok=await mutate(d=>{
+    const s=d.setoran.find(x=>x.id===id);
+    if(!s)return 'Setoran tidak ditemukan!';
+    if(s.status!=='pending')return 'Setoran sudah diproses!';
+    s.status='sukses';
+    const m=d.members.find(x=>x.id===s.memberId);
+    if(m)m.saldo+=s.price;
+    d.saldo.push({id:uid(),memberId:s.memberId,type:'masuk',jumlah:s.price,metode:s.walletType,nomor:s.walletNumber,status:'sukses',ket:'Setoran diterima: '+s.gmail,createdAt:Date.now()});
+  });
+  if(ok)toast('Setoran DITERIMA! Saldo member +'+rp(s0.price));
+}
+async function rejectSetoran(id){
+  const a=prompt('Alasan penolakan (opsional, tampil di riwayat member):','');if(a===null)return;
+  const ok=await mutate(d=>{
+    const s=d.setoran.find(x=>x.id===id);
+    if(!s)return 'Setoran tidak ditemukan!';
+    if(s.status!=='pending')return 'Setoran sudah diproses!';
+    s.status='ditolak';s.note=a.trim();
+  });
+  if(ok)toast('Setoran DITOLAK.','err');
+}
+async function approveWd(id){
+  const ok=await mutate(d=>{
+    const t=d.saldo.find(x=>x.id===id);
+    if(!t||t.status!=='pending')return 'Sudah diproses!';
+    t.status='sukses';
+  });
+  if(ok)toast('Penarikan disetujui & dicairkan! ✅');
+}
+async function rejectWd(id){
+  const ok=await mutate(d=>{
+    const t=d.saldo.find(x=>x.id===id);
+    if(!t||t.status!=='pending')return 'Sudah diproses!';
+    const m=d.members.find(x=>x.id===t.memberId);
+    if(m)m.saldo+=t.jumlah;
+    t.status='ditolak';
+  });
+  if(ok)toast('Penarikan ditolak, saldo dikembalikan ke member.','err');
+}
+async function delMember(id){
+  if(!confirm('Hapus member ini beserta SEMUA data setoran & saldonya?'))return;
+  const ok=await mutate(d=>{
+    d.members=d.members.filter(m=>m.id!==id);
+    d.setoran=d.setoran.filter(s=>s.memberId!==id);
+    d.saldo=d.saldo.filter(s=>s.memberId!==id);
+  });
+  if(ok)toast('Member & semua datanya dihapus!');
+}
+async function editSaldo(id){
+  const m=DB.members.find(x=>x.id===id);if(!m)return;
+  const v=prompt('Set saldo baru untuk '+m.gmail+':',m.saldo);if(v===null)return;
+  const ok=await mutate(d=>{const x=d.members.find(y=>y.id===id);if(!x)return 'Member tidak ditemukan!';x.saldo=Math.max(0,parseInt(v,10)||0);});
+  if(ok)toast('Saldo member diubah: '+rp(Math.max(0,parseInt(v,10)||0)));
+}
+async function resetPass(id){
+  const m=DB.members.find(x=>x.id===id);if(!m)return;
+  const p=prompt('Password baru untuk '+m.gmail+' (min 6 karakter):','');if(p===null)return;
+  if(p.length<6)return toast('Minimal 6 karakter!','err');
+  const ok=await mutate(d=>{const x=d.members.find(y=>y.id===id);if(!x)return 'Member tidak ditemukan!';x.pass=p;});
+  if(ok)toast('Password member berhasil direset! 🔑');
+}
+async function toggleOpen(el){
+  const open=el.checked;
+  const ok=await mutate(d=>{d.settings.open=open;});
+  if(ok){toast(open?'Setoran DIBUKA kembali! ✅':'Setoran DITUTUP — kuota penuh! 🔒');renderKontrol();}
+  else el.checked=!open;
+}
+
+/* ================= PENGATURAN ================= */
+ $('#setForm').onsubmit=async e=>{
+  e.preventDefault();
+  const ok=await mutate(d=>{
+    d.settings.siteName=$('#setName').value.trim()||'SetoranGmail';
+    d.settings.tagline=$('#setTag').value.trim();
+    d.settings.info=$('#setInfo').value.trim();
+    d.settings.price=Math.max(0,parseInt($('#setPrice').value)||0);
+  });
+  if(ok)toast('Pengaturan disimpan! Halaman member ikut berubah dalam 3 detik. ✨');
+};
+ $('#admForm').onsubmit=async e=>{
+  e.preventDefault();
+  const u=$('#admUser').value.trim(),p=$('#admPass').value;
+  if(!u&&!p)return toast('Isi username atau password baru!','err');
+  if(p&&p.length<6)return toast('Password admin minimal 6 karakter!','err');
+  const ok=await mutate(d=>{
+    if(u)d.settings.adminUser=u;
+    if(p)d.settings.adminPass=p;
+  });
+  if(ok){e.target.reset();toast('Akun admin diperbarui! 🛡️');}
+};
+
+/* ===== PILL FILTER ===== */
+ $$('#setorPills .pill').forEach(p=>p.onclick=()=>{setorFilter=p.dataset.f;renderSetoran();});
+ $$('#wdPills .pill').forEach(p=>p.onclick=()=>{wdFilter=p.dataset.f;renderEw();});
+
+/* ================= LOGIN ADMIN ================= */
+ $('#adminForm').onsubmit=async e=>{
+  e.preventDefault();
+  try{DB=await readDB();setSync('online');}catch(err){return toast('Tidak bisa terhubung ke BINS!','err');}
+  if($('#adUser').value.trim()!==DB.settings.adminUser||$('#adPass').value!==DB.settings.adminPass)return toast('Username atau password admin salah!','err');
+  localStorage.setItem('BINS_Admin','1');e.target.reset();enter(true);
+};
+function enter(greet){
+  $('#adminAuth').classList.add('hidden');$('#app').classList.remove('hidden');
+  navigate('dashboard');
+  if(greet)toast('Selamat datang, Admin! 🛡️');
+}
+function logout(){if(!confirm('Keluar dari panel admin?'))return;localStorage.removeItem('BINS_Admin');location.reload();}
+
+/* ================= AUTO-SYNC 3 DETIK (BINS CLOUD) ================= */
+async function syncNow(){
+  if(busy)return;
+  try{DB=await readDB();setSync('online');refreshUI();}
+  catch(e){setSync('offline');}
+}
+setInterval(()=>{if(!document.hidden)syncNow();},CONFIG.SYNC_MS);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncNow();});
+
+/* ================= INIT ================= */
+(async function boot(){
+  await syncNow();
+  $('#loader').classList.add('hidden');
+  if(localStorage.getItem('BINS_Admin')==='1')enter(false);
+  else $('#adminAuth').classList.remove('hidden');
+})();
+</script>
+</body>
+</html>
