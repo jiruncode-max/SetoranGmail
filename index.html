@@ -148,6 +148,8 @@ main{flex:1;margin-left:256px;padding:24px 28px 100px}
 .bub.me{align-self:flex-end;background:var(--grad);color:#fff;border-bottom-right-radius:4px}
 .bub.adm{align-self:flex-start;background:var(--bg2);border:1px solid var(--line);border-bottom-left-radius:4px}
 .bub .t{display:block;font-size:9.5px;opacity:.65;margin-top:4px}
+.bub.new{animation:bubNew 2.6s ease}
+@keyframes bubNew{0%,55%{box-shadow:0 0 0 3px rgba(124,92,255,.65),0 0 22px rgba(124,92,255,.4)}100%{box-shadow:none}}
 .cs-send{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--line);flex-shrink:0}
 .cs-send .inp{flex:1}
 .cs-send .btn{padding:0 16px;font-size:14px}
@@ -437,6 +439,7 @@ function afterSync(){
     $('#sideGmail').textContent=m.gmail;
     setAvatars();updateTop();
     renderChat();
+    checkNewAdminMsg();
     if(wasIn)render(cur);
   }else if(wasIn){location.reload();}
 }
@@ -509,7 +512,9 @@ function switchTab(t){$$('.tab').forEach(b=>b.classList.toggle('active',b.datase
 };
 function enterApp(greet){
   $('#authScreen').classList.add('hidden');$('#app').classList.remove('hidden');
-  afterSync();navigate('beranda');
+  afterSync();
+  localStorage.setItem('BINS_ChatLastAdmin',String(latestAdminAt()));
+  navigate('beranda');
   if(greet)toast('Selamat datang kembali! 👋');
 }
 function logout(){if(!confirm('Yakin ingin keluar?'))return;localStorage.removeItem('BINS_Session');location.reload();}
@@ -578,6 +583,12 @@ function logout(){if(!confirm('Yakin ingin keluar?'))return;localStorage.removeI
 };
 
 /* ================= CHAT CS (INTERNAL) ================= */
+function latestAdminAt(){
+  if(!ME)return 0;
+  let m=0;
+  DB.chat.forEach(c=>{if(c.memberId===ME.id&&c.from==='admin'&&c.at>m)m=c.at;});
+  return m;
+}
 function toggleCS(f){
   const p=$('#csPop');
   const open=(f===undefined)?!p.classList.contains('open'):!!f;
@@ -593,6 +604,30 @@ function renderChat(){
   const seen=+(localStorage.getItem('BINS_ChatSeenM')||0);
   const unread=DB.chat.filter(c=>c.memberId===ME.id&&c.from==='admin'&&c.at>seen).length;
   const b=$('#csBadge');if(b){b.style.display=unread?'flex':'none';b.textContent=unread>99?'99+':unread;}
+}
+/* Deteksi pesan baru dari admin → popup auto-terbuka + pesan di-scroll ke tengah */
+function checkNewAdminMsg(){
+  if(!ME)return;
+  if($('#app').classList.contains('hidden'))return;
+  const key='BINS_ChatLastAdmin';
+  const la=latestAdminAt();
+  const prevRaw=localStorage.getItem(key);
+  if(prevRaw===null){if(la)localStorage.setItem(key,String(la));return;}
+  const prev=+prevRaw;
+  if(la>prev){
+    localStorage.setItem(key,String(la));
+    const wasOpen=$('#csPop').classList.contains('open');
+    toggleCS(true);
+    renderChat();
+    toast('💬 Pesan baru dari CS Admin!','ok');
+    const box=$('#chatBox');
+    const last=box?box.querySelector('.bub:last-of-type'):null;
+    if(last){
+      last.classList.add('new');
+      last.scrollIntoView({block:'center',behavior:'smooth'});
+      setTimeout(()=>last.classList.remove('new'),2700);
+    }
+  }
 }
 async function sendMsg(){
   const v=$('#csMsg').value.trim();
