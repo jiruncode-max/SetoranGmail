@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SetoranGmail — Member</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+:root{--bg:#0a0d1a;--bg2:#0f1322;--card:#141a30;--line:#262f52;--txt:#eef1fb;--mut:#8b93b5;--acc:#7c5cff;--acc2:#4f8cff;--grn:#22c55e;--red:#f0475a;--yel:#f5b942;--grad:linear-gradient(135deg,#7c5cff,#4f8cff)}
+body{background:var(--bg);color:var(--txt);min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(600px 400px at 85% -10%,rgba(124,92,255,.16),transparent),radial-gradient(600px 400px at -10% 110%,rgba(79,140,255,.13),transparent);pointer-events:none}
+.hidden{display:none!important}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+#loader{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:998}
+.spinner{width:52px;height:52px;border:4px solid var(--line);border-top-color:var(--acc);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#loader p{font-size:13px;color:var(--mut)}
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;z-index:1}
+.auth-card{width:100%;max-width:440px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:36px 32px;position:relative;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.auth-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--grad)}
+.brand{text-align:center}
+.logo{width:64px;height:64px;border-radius:20px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;box-shadow:0 10px 28px rgba(124,92,255,.45);margin:0 auto 14px}
+.logo.sm{width:38px;height:38px;font-size:15px;margin:0;box-shadow:none;border-radius:12px}
+.brand h1{font-size:23px;margin-bottom:2px}
+.brand p{font-size:12px;color:var(--mut)}
+.tabs{display:flex;background:var(--bg2);border-radius:12px;padding:4px;margin:24px 0 20px}
+.tab{flex:1;padding:10px;border:none;background:none;color:var(--mut);font-weight:600;font-size:13px;border-radius:9px;cursor:pointer;transition:.25s;font-family:inherit}
+.tab.active{background:var(--grad);color:#fff}
+.auth-foot{text-align:center;font-size:11px;color:var(--mut);margin-top:18px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11.5px;color:var(--mut);margin-bottom:6px;font-weight:600}
+.inp{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:0 14px;transition:.2s}
+.inp:focus-within{border-color:var(--acc);box-shadow:0 0 0 3px rgba(124,92,255,.15)}
+.inp i{color:var(--mut);font-size:13px}
+.inp input{flex:1;background:none;border:none;outline:none;color:var(--txt);padding:13px 0;font-size:13.5px;font-family:inherit;min-width:0}
+.inp input::placeholder{color:#566084}
+select{flex:1;background:none;border:none;outline:none;color:var(--txt);padding:13px 0;font-size:13.5px;cursor:pointer;font-family:inherit;color-scheme:dark}
+select option{background:var(--card)}
+textarea{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:12px;color:var(--txt);padding:12px 14px;font-size:13px;font-family:inherit;outline:none;resize:vertical;min-height:110px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--grad);color:#fff;border:none;padding:13px 20px;border-radius:12px;font-weight:600;font-size:14px;cursor:pointer;transition:.25s;font-family:inherit}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(124,92,255,.4)}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:var(--bg2);color:var(--txt);border:1px solid var(--line);padding:10px 16px;border-radius:12px;cursor:pointer;font-size:13px;font-weight:500;transition:.2s;font-family:inherit}
+.btn-ghost:hover{border-color:var(--acc)}
+.w100{width:100%}
+.app{display:flex;min-height:100vh;position:relative;z-index:1}
+.sidebar{width:256px;position:fixed;top:0;bottom:0;left:0;background:var(--bg2);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:26px 16px 20px;z-index:50}
+.side-brand{display:flex;align-items:center;gap:12px;padding:0 8px 24px}
+.side-brand span{font-weight:700;font-size:17px}
+.sidebar nav{flex:1;display:flex;flex-direction:column;gap:4px}
+.nav-btn{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border:none;background:none;color:var(--mut);border-radius:12px;cursor:pointer;font-size:13.5px;font-weight:500;transition:.2s;font-family:inherit;text-align:left}
+.nav-btn i{width:18px;text-align:center}
+.nav-btn:hover{background:var(--card);color:var(--txt)}
+.nav-btn.active{background:var(--grad);color:#fff;box-shadow:0 6px 18px rgba(124,92,255,.35)}
+.side-user{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.side-user-info{flex:1;min-width:0}
+.side-user-info b{font-size:12.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.side-user-info span{font-size:10.5px;color:var(--mut);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.icon-btn{width:34px;height:34px;border-radius:10px;background:var(--bg2);border:1px solid var(--line);color:var(--mut);cursor:pointer;transition:.2s;flex-shrink:0;font-size:13px}
+.icon-btn:hover{color:var(--acc);border-color:var(--acc)}
+main{flex:1;margin-left:256px;padding:24px 28px 100px}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;gap:14px;flex-wrap:wrap}
+.topbar h2{font-size:22px;font-weight:700}
+.topbar .sub{font-size:12.5px}
+.topbar-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.saldo-chip{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);padding:9px 16px;border-radius:999px;font-weight:600;font-size:13.5px}
+.live{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--mut);background:var(--card);border:1px solid var(--line);padding:9px 14px;border-radius:999px}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--yel);animation:pulse 1.5s infinite}
+.live-dot.off{animation:none}
+@keyframes pulse{50%{opacity:.25}}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;overflow:hidden;flex-shrink:0;color:#fff;cursor:pointer}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.avatar.sm{width:36px;height:36px;font-size:13px;cursor:default}
+.avatar.xl{width:96px;height:96px;font-size:32px;margin:0 auto 14px;cursor:default}
+.page{animation:fade .35s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px}
+.card-title{font-size:15px;font-weight:600;display:flex;align-items:center;gap:9px;margin-bottom:16px}
+.card-title i{color:var(--acc)}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.hero{background:linear-gradient(135deg,#7c5cff,#4f8cff);border-radius:24px;padding:34px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.12);top:-80px;right:-60px}
+.hero-tag{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.22);padding:6px 14px;border-radius:999px;font-size:12px;font-weight:600;margin-bottom:14px}
+.hero-tag.closed{background:rgba(0,0,0,.4)}
+.hero h3{font-size:26px;margin-bottom:8px;position:relative;z-index:1}
+.hero p{font-size:13.5px;opacity:.92;max-width:540px;position:relative;z-index:1;line-height:1.7}
+.stat{display:flex;align-items:center;gap:16px}
+.stat-ic{width:52px;height:52px;border-radius:16px;background:rgba(124,92,255,.15);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--acc);flex-shrink:0}
+.stat span{font-size:11.5px;color:var(--mut)}
+.stat b{font-size:19px;display:block}
+.sub{color:var(--mut);font-size:13px;line-height:1.7}
+.sm2{font-size:11px;display:block}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:5px 12px;border-radius:999px;white-space:nowrap}
+.badge.pending{background:rgba(245,185,66,.15);color:var(--yel)}
+.badge.sukses{background:rgba(34,197,94,.15);color:var(--grn)}
+.badge.ditolak{background:rgba(240,71,90,.15);color:var(--red)}
+.item{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:13px 15px;margin-bottom:10px;flex-wrap:wrap}
+.item-main b{font-size:13.5px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.item-main b i{color:var(--acc);font-size:11px}
+.item-side{display:flex;align-items:center;gap:12px;margin-left:auto}
+.item-side b{font-size:14px}
+.empty{text-align:center;color:var(--mut);font-size:13px;padding:28px 10px}
+.empty i{font-size:30px;display:block;margin-bottom:10px;opacity:.5}
+.note{display:flex;gap:10px;background:rgba(79,140,255,.08);border:1px solid rgba(79,140,255,.25);border-radius:12px;padding:12px 14px;font-size:12px;color:var(--mut);margin:6px 0 16px;line-height:1.6}
+.note i{color:var(--acc2);margin-top:2px}
+.price-banner{display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,rgba(124,92,255,.18),rgba(79,140,255,.18));border:1px solid rgba(124,92,255,.35)}
+.price-banner i{font-size:26px;color:var(--acc)}
+.price-banner span{font-size:11.5px;color:var(--mut);display:block}
+.price-banner b{font-size:22px}
+.closed-card{text-align:center;padding:48px 24px}
+.closed-card i{font-size:44px;color:var(--red);margin-bottom:14px;display:block}
+.closed-card h3{margin-bottom:8px;font-size:18px}
+.saldo-hero{background:linear-gradient(135deg,#13204a,#1a1035);border:1px solid var(--line);text-align:center;padding:30px}
+.saldo-hero>span{font-size:12.5px;color:var(--mut)}
+.saldo-hero h2{font-size:36px;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin:6px 0 16px}
+.saldo-mini{display:flex;justify-content:center;gap:44px}
+.saldo-mini span{font-size:11px;color:var(--mut);display:block}
+.saldo-mini b{font-size:15px}
+.profile-card{text-align:center;padding:30px}
+.profile-card h3{font-size:15.5px;word-break:break-all}
+.profile-card .btn-ghost{margin-top:14px}
+.mono{font-family:'Courier New',monospace;letter-spacing:.5px}
+#toast{position:fixed;top:20px;right:20px;z-index:999;display:flex;flex-direction:column;gap:10px}
+.toast{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);padding:13px 18px;border-radius:12px;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.5);animation:tin .3s;display:flex;align-items:center;gap:10px;max-width:330px;transition:.3s}
+.toast.ok i{color:var(--grn)}.toast.err{border-left-color:var(--red)}.toast.err i{color:var(--red)}
+@keyframes tin{from{transform:translateX(40px);opacity:0}}
+.bottomnav{display:none}
+@media(max-width:880px){
+.sidebar{display:none}
+main{margin-left:0;padding:20px 16px 110px}
+.bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;background:rgba(15,19,34,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:60;padding:8px}
+.bottomnav button{flex:1;background:none;border:none;color:var(--mut);font-size:9.5px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 2px;cursor:pointer;border-radius:12px;font-family:inherit}
+.bottomnav button i{font-size:17px}
+.bottomnav button.active{color:#a58bff}
+.auth-card{padding:28px 22px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader"><div class="spinner"></div><p>Menghubungkan ke BINS ☁️...</p></div>
+
+<!-- ========== LOGIN / DAFTAR ========== -->
+<div id="authScreen" class="auth-wrap hidden">
+  <div class="auth-card">
+    <div class="brand">
+      <div class="logo"><i class="fa-solid fa-envelope"></i></div>
+      <h1 id="authSiteName">SetoranGmail</h1>
+      <p id="authTagline">Platform setor akun Gmail terpercaya</p>
+    </div>
+    <div class="tabs">
+      <button class="tab active" data-tab="login">Masuk</button>
+      <button class="tab" data-tab="register">Daftar</button>
+    </div>
+    <form id="loginForm">
+      <div class="field"><label>Email Gmail</label><div class="inp"><i class="fa-solid fa-envelope"></i><input type="email" id="liGmail" placeholder="nama@gmail.com" required></div></div>
+      <div class="field"><label>Password</label><div class="inp"><i class="fa-solid fa-lock"></i><input type="password" id="liPass" placeholder="••••••••" required></div></div>
+      <button class="btn w100" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Masuk</button>
+    </form>
+    <form id="registerForm" class="hidden">
+      <div class="field"><label>Email Gmail</label><div class="inp"><i class="fa-solid fa-envelope"></i><input type="email" id="rgGmail" placeholder="nama@gmail.com" required></div></div>
+      <div class="field"><label>Nomor HP / WhatsApp</label><div class="inp"><i class="fa-solid fa-phone"></i><input id="rgPhone" placeholder="08xx-xxxx-xxxx" maxlength="14" required></div></div>
+      <div class="field"><label>Password</label><div class="inp"><i class="fa-solid fa-lock"></i><input type="password" id="rgPass" placeholder="Minimal 6 karakter" required></div></div>
+      <div class="field"><label>Ulangi Password</label><div class="inp"><i class="fa-solid fa-lock"></i><input type="password" id="rgPass2" placeholder="Ulangi password" required></div></div>
+      <button class="btn w100" type="submit"><i class="fa-solid fa-user-plus"></i> Daftar Sekarang</button>
+    </form>
+    <p class="auth-foot">© <span class="yr"></span> <span class="siteNameFoot">SetoranGmail</span> — Data tersimpan aman di cloud BINS ☁️</p>
+  </div>
+</div>
+
+<!-- ========== APLIKASI MEMBER ========== -->
+<div id="app" class="app hidden">
+  <aside class="sidebar">
+    <div class="side-brand"><div class="logo sm"><i class="fa-solid fa-envelope"></i></div><span id="sideSiteName">SetoranGmail</span></div>
+    <nav>
+      <button class="nav-btn active" data-page="beranda"><i class="fa-solid fa-house"></i> Beranda</button>
+      <button class="nav-btn" data-page="setor"><i class="fa-solid fa-arrow-up"></i> Setor</button>
+      <button class="nav-btn" data-page="saldo"><i class="fa-solid fa-wallet"></i> Saldo</button>
+      <button class="nav-btn" data-page="riwayat"><i class="fa-solid fa-clock-rotate-left"></i> Riwayat</button>
+      <button class="nav-btn" data-page="akun"><i class="fa-solid fa-user-gear"></i> Akun</button>
+    </nav>
+    <div class="side-user">
+      <div class="avatar sm" id="sideAvatar">S</div>
+      <div class="side-user-info"><b id="sideName">Member</b><span id="sideGmail">-</span></div>
+      <button class="icon-btn" onclick="logout()" title="Keluar"><i class="fa-solid fa-right-from-bracket"></i></button>
+    </div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div><h2 id="pageTitle">Beranda</h2><p class="sub" id="pageSub">Informasi website</p></div>
+      <div class="topbar-right">
+        <div class="live"><span class="live-dot off" id="syncDot" style="background:var(--yel)"></span><span id="syncText">Menghubungkan…</span></div>
+        <div class="saldo-chip"><i class="fa-solid fa-coins" style="color:var(--yel)"></i><span id="topSaldo">Rp 0</span></div>
+        <div class="avatar" id="topAvatar" onclick="navigate('akun')" title="Akun saya">S</div>
+      </div>
+    </header>
+
+    <!-- BERANDA -->
+    <section id="page-beranda" class="page">
+      <div class="hero">
+        <span class="hero-tag" id="heroStatus"><i class="fa-solid fa-circle-check"></i> Setoran Dibuka</span>
+        <h3 id="heroName">SetoranGmail</h3>
+        <p id="heroInfo">Platform setor akun Gmail terpercaya</p>
+      </div>
+      <div class="grid g2" style="margin-top:16px">
+        <div class="card stat"><div class="stat-ic"><i class="fa-solid fa-tag"></i></div><div><span>Harga 1 Gmail</span><b id="heroPrice">Rp 0</b></div></div>
+        <div class="card stat"><div class="stat-ic" style="color:var(--yel);background:rgba(245,185,66,.13)"><i class="fa-solid fa-coins"></i></div><div><span>Saldo Kamu</span><b id="heroSaldo">Rp 0</b></div></div>
+        <div class="card stat"><div class="stat-ic" style="color:var(--acc2);background:rgba(79,140,255,.13)"><i class="fa-solid fa-envelope"></i></div><div><span>Total Setoran</span><b id="heroTotal">0</b></div></div>
+        <div class="card stat"><div class="stat-ic" style="color:var(--grn);background:rgba(34,197,94,.13)"><i class="fa-solid fa-circle-check"></i></div><div><span>Setoran Sukses</span><b id="heroSukses">0</b></div></div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <h4 class="card-title"><i class="fa-solid fa-circle-info"></i> Informasi Website</h4>
+        <p class="sub" id="berandaInfo"></p>
+      </div>
+      <button class="btn w100" style="margin-top:16px" onclick="navigate('setor')"><i class="fa-solid fa-arrow-up"></i> Setor Gmail Sekarang</button>
+    </section>
+
+    <!-- SETOR -->
+    <section id="page-setor" class="page hidden">
+      <div id="setorClosed" class="card closed-card hidden">
+        <i class="fa-solid fa-ban"></i>
+        <h3>Setoran Sedang Ditutup</h3>
+        <p class="sub">Kuota setoran sedang penuh. Silakan coba lagi nanti ya! 🙏</p>
+      </div>
+      <div id="setorOpen">
+        <div class="card price-banner">
+          <i class="fa-solid fa-tags"></i>
+          <div><span>Harga per 1 Gmail saat ini</span><b id="setorPrice">Rp 0</b></div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <h4 class="card-title"><i class="fa-solid fa-plus"></i> Form Setor Gmail</h4>
+          <form id="setorForm">
+            <div class="grid g2">
+              <div class="field"><label>Email Gmail yang Disetor</label><div class="inp"><i class="fa-solid fa-at"></i><input id="stGmail" placeholder="contoh@gmail.com" required></div></div>
+              <div class="field"><label>Password Gmail</label><div class="inp"><i class="fa-solid fa-key"></i><input type="password" id="stPass" placeholder="Password akun gmail" required></div></div>
+              <div class="field"><label>E-Wallet Penyetor</label><div class="inp"><i class="fa-solid fa-wallet"></i>
+                <select id="stWallet"><option value="">Pilih E-Wallet</option><option value="OVO">OVO</option><option value="DANA">DANA</option><option value="GoPay">GoPay</option></select>
+              </div></div>
+              <div class="field"><label>Nomor E-Wallet</label><div class="inp"><i class="fa-solid fa-mobile-screen"></i><input id="stWalletNum" placeholder="08xx-xxxx-xxxx" maxlength="14" required></div></div>
+            </div>
+            <div class="note"><i class="fa-solid fa-shield-halved"></i><span>Pastikan data gmail benar. Setoran akan diverifikasi admin terlebih dahulu sebelum saldo masuk.</span></div>
+            <button class="btn w100" type="submit"><i class="fa-solid fa-paper-plane"></i> Kirim Setoran</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- SALDO -->
+    <section id="page-saldo" class="page hidden">
+      <div class="card saldo-hero">
+        <span>Saldo Tersedia</span>
+        <h2 id="saldoBig">Rp 0</h2>
+        <div class="saldo-mini">
+          <div><span>Total Masuk</span><b style="color:var(--grn)" id="saldoIn">Rp 0</b></div>
+          <div><span>Total Ditarik</span><b style="color:var(--yel)" id="saldoOut">Rp 0</b></div>
+        </div>
+      </div>
+      <div class="grid g2" style="margin-top:16px;align-items:start">
+        <div class="card">
+          <h4 class="card-title"><i class="fa-solid fa-money-bill-transfer"></i> Tarik Saldo</h4>
+          <form id="wdForm">
+            <div class="field"><label>E-Wallet Tujuan</label><div class="inp"><i class="fa-solid fa-wallet"></i>
+              <select id="wdWallet"><option value="">Pilih E-Wallet</option><option value="OVO">OVO</option><option value="DANA">DANA</option><option value="GoPay">GoPay</option></select></div></div>
+            <div class="field"><label>Nomor E-Wallet</label><div class="inp"><i class="fa-solid fa-mobile-screen"></i><input id="wdNum" placeholder="08xx-xxxx-xxxx" maxlength="14" required></div></div>
+            <div class="field"><label>Jumlah Penarikan (min Rp 1.000)</label><div class="inp"><i class="fa-solid fa-coins"></i><input type="number" id="wdAmount" min="1000" step="500" placeholder="1000" required></div></div>
+            <div class="note"><i class="fa-solid fa-circle-info"></i><span>Minimal penarikan Rp 1.000. Penarikan diproses oleh admin ke OVO / DANA / GoPay.</span></div>
+            <button class="btn w100" type="submit"><i class="fa-solid fa-arrow-down"></i> Ajukan Penarikan</button>
+          </form>
+        </div>
+        <div class="card">
+          <h4 class="card-title"><i class="fa-solid fa-receipt"></i> Riwayat Transaksi Saldo</h4>
+          <div id="txList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIWAYAT -->
+    <section id="page-riwayat" class="page hidden">
+      <div class="card">
+        <h4 class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> Riwayat Setoran Gmail</h4>
+        <div id="riwayatList"></div>
+      </div>
+    </section>
+
+    <!-- AKUN -->
+    <section id="page-akun" class="page hidden">
+      <div class="grid g2" style="align-items:start">
+        <div class="card profile-card">
+          <div class="avatar xl" id="akunAvatar">S</div>
+          <h3 id="akunGmail">-</h3>
+          <p class="sub" id="akunPhone">-</p>
+          <label class="btn-ghost" for="photoInput"><i class="fa-solid fa-camera"></i> Ubah Foto Profil</label>
+          <input type="file" id="photoInput" accept="image/*" class="hidden">
+        </div>
+        <div class="card">
+          <h4 class="card-title"><i class="fa-solid fa-key"></i> Ganti Password</h4>
+          <form id="passForm">
+            <div class="field"><label>Password Lama</label><div class="inp"><i class="fa-solid fa-lock"></i><input type="password" id="oldPass" placeholder="Password saat ini" required></div></div>
+            <div class="field"><label>Password Baru</label><div class="inp"><i class="fa-solid fa-lock"></i><input type="password" id="newPass" placeholder="Minimal 6 karakter" required></div></div>
+            <div class="field"><label>Ulangi Password Baru</label><div class="inp"><i class="fa-solid fa-lock"></i><input type="password" id="newPass2" placeholder="Ulangi password baru" required></div></div>
+            <button class="btn w100" type="submit"><i class="fa-solid fa-floppy-disk"></i> Simpan Password Baru</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottomnav">
+    <button class="active" data-page="beranda"><i class="fa-solid fa-house"></i>Beranda</button>
+    <button data-page="setor"><i class="fa-solid fa-arrow-up"></i>Setor</button>
+    <button data-page="saldo"><i class="fa-solid fa-wallet"></i>Saldo</button>
+    <button data-page="riwayat"><i class="fa-solid fa-clock-rotate-left"></i>Riwayat</button>
+    <button data-page="akun"><i class="fa-solid fa-user-gear"></i>Akun</button>
+  </nav>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ================= KONFIGURASI BINS ================= */
+const CONFIG={
+  BIN_ID:'6aad210effd5d1605315a77c',
+  MASTER_KEY:'$2a$10$2iiub9wpd/6zf.qoNEeSnurohllcdkBeVuzlfXhMVvznn8DMP0rWW',
+  SYNC_MS:3000
+};
+const APIB='https://api.jsonbin.io/v3';
+const DEF={siteName:'SetoranGmail',tagline:'Platform setor akun Gmail terpercaya',info:'Setorkan akun Gmail Anda dan dapatkan penghasilan! Admin akan memverifikasi setoran, lalu saldo langsung masuk ke akun Anda. Saldo bisa ditarik ke OVO, DANA, atau GoPay mulai dari Rp 1.000.',price:15000,open:true,adminUser:'admin',adminPass:'admin123'};
+
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+let DB=norm(null),ME=null,cur='beranda',busy=false;
+const PAGES={beranda:['Beranda','Informasi website & harga gmail'],setor:['Setor','Setorkan akun Gmail kamu'],saldo:['Saldo','Cek & tarik saldo kamu'],riwayat:['Riwayat','Status setoran kamu'],akun:['Akun','Kelola profil & password']};
+const rp=n=>'Rp '+Number(n||0).toLocaleString('id-ID');
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const tgl=t=>new Date(t).toLocaleString('id-ID',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+const fmtW=v=>{const d=String(v).replace(/\D/g,'').slice(0,12);return(d.match(/.{1,4}/g)||[]).join('-')};
+const ST=s=>({pending:'Pending',sukses:'Sukses',ditolak:'Ditolak'}[s]||s);
+function norm(r){r=r||{};return{settings:Object.assign({},DEF,r.settings||{}),members:Array.isArray(r.members)?r.members:[],setoran:Array.isArray(r.setoran)?r.setoran:[],saldo:Array.isArray(r.saldo)?r.saldo:[]};}
+
+/* ================= API BINS (READ / WRITE) ================= */
+async function readDB(){
+  const r=await fetch(APIB+'/b/'+CONFIG.BIN_ID+'/latest',{headers:{'X-Master-Key':CONFIG.MASTER_KEY}});
+  if(!r.ok)throw new Error(r.status===429?'RATE':'READ');
+  return norm((await r.json()).record);
+}
+async function writeDB(data){
+  const r=await fetch(APIB+'/b/'+CONFIG.BIN_ID,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':CONFIG.MASTER_KEY},body:JSON.stringify(data)});
+  if(!r.ok)throw new Error(r.status===429?'RATE':'WRITE');
+}
+/* Baca terbaru → ubah → simpan (anti data hilang/timpa) */
+async function mutate(fn){
+  if(busy)return false;
+  busy=true;setSync('saving');
+  try{
+    const fresh=await readDB();
+    const err=fn(fresh);
+    if(err){setSync('online');toast(err,'err');return false;}
+    await writeDB(fresh);
+    DB=fresh;setSync('online');afterSync();
+    return true;
+  }catch(e){
+    setSync('offline');
+    toast(e.message==='RATE'?'Batas request BINS tercapai, tunggu sebentar...':'Koneksi ke BINS gagal! Cek internet & coba lagi.','err');
+    return false;
+  }finally{busy=false;}
+}
+
+/* ================= UI DASAR ================= */
+function toast(msg,type='ok'){const t=document.createElement('div');t.className='toast '+type;t.innerHTML=`<i class="fa-solid ${type==='err'?'fa-circle-xmark':'fa-circle-check'}"></i><span>${msg}</span>`;$('#toast').appendChild(t);setTimeout(()=>{t.style.opacity=0;t.style.transform='translateX(40px)';setTimeout(()=>t.remove(),300)},3200);}
+function setSync(s){const d=$('#syncDot'),t=$('#syncText');if(!d)return;d.classList.toggle('off',s==='offline');d.style.background=s==='offline'?'var(--red)':s==='saving'?'var(--yel)':'var(--grn)';t.textContent=s==='offline'?'Offline':s==='saving'?'Menyimpan...':'Live • sync 3s';}
+function applyBrand(){$('#authSiteName').textContent=DB.settings.siteName;$('#authTagline').textContent=DB.settings.tagline;$('#sideSiteName').textContent=DB.settings.siteName;document.title=DB.settings.siteName+' — Member';}
+const avH=m=>m&&m.photo?`<img src="${m.photo}" alt="">`:esc(((m&&m.gmail)||'?')[0].toUpperCase());
+function setAvatars(){['#sideAvatar','#topAvatar','#akunAvatar'].forEach(s=>{const el=$(s);if(el)el.innerHTML=ME&&ME.photo?`<img src="${ME.photo}" alt="">`:esc((ME?ME.gmail[0]:'?').toUpperCase());});}
+function updateTop(){$('#topSaldo').textContent=rp(ME?ME.saldo:0);}
+
+/* Sinkronisasi tampilan setelah data berubah */
+function afterSync(){
+  const sid=localStorage.getItem('BINS_Session');
+  const m=sid?DB.members.find(x=>x.id===sid):null;
+  const wasIn=!$('#app').classList.contains('hidden');
+  ME=m;applyBrand();
+  if(m){
+    $('#sideName').textContent=m.gmail.split('@')[0];
+    $('#sideGmail').textContent=m.gmail;
+    setAvatars();updateTop();
+    if(wasIn)render(cur);
+  }else if(wasIn){location.reload();}
+}
+
+/* ================= NAVIGASI ================= */
+function navigate(p){cur=p;$$('.page').forEach(x=>x.classList.add('hidden'));$('#page-'+p).classList.remove('hidden');$$('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===p));$('#pageTitle').textContent=PAGES[p][0];$('#pageSub').textContent=PAGES[p][1];render(p);}
+function render(p){if(!ME)return;if(p==='beranda')renderBeranda();else if(p==='setor')renderSetor();else if(p==='saldo')renderSaldo();else if(p==='riwayat')renderRiwayat();else if(p==='akun')renderAkun();}
+ $$('[data-page]').forEach(b=>b.onclick=()=>navigate(b.dataset.page));
+
+/* ================= RENDER ================= */
+function renderBeranda(){
+  const st=DB.settings,mine=DB.setoran.filter(s=>s.memberId===ME.id);
+  $('#heroName').textContent=st.siteName;$('#heroInfo').textContent=st.tagline;
+  const hs=$('#heroStatus');
+  hs.innerHTML=`<i class="fa-solid ${st.open?'fa-circle-check':'fa-ban'}"></i> ${st.open?'Setoran Dibuka':'Setoran Ditutup — Kuota Penuh'}`;
+  hs.classList.toggle('closed',!st.open);
+  $('#heroPrice').textContent=rp(st.price);$('#heroSaldo').textContent=rp(ME.saldo);
+  $('#heroTotal').textContent=mine.length;$('#heroSukses').textContent=mine.filter(s=>s.status==='sukses').length;
+  $('#berandaInfo').textContent=st.info;
+}
+function renderSetor(){$('#setorPrice').textContent=rp(DB.settings.price);$('#setorOpen').classList.toggle('hidden',!DB.settings.open);$('#setorClosed').classList.toggle('hidden',DB.settings.open);}
+function renderSaldo(){
+  $('#saldoBig').textContent=rp(ME.saldo);
+  if(!$('#wdWallet').value&&!$('#wdNum').value){const last=DB.setoran.filter(s=>s.memberId===ME.id&&s.walletNumber).sort((a,b)=>b.createdAt-a.createdAt)[0];if(last){$('#wdWallet').value=last.walletType;$('#wdNum').value=last.walletNumber;}}
+  const mine=DB.saldo.filter(t=>t.memberId===ME.id).sort((a,b)=>b.createdAt-a.createdAt);
+  const inn=mine.filter(t=>t.type==='masuk').reduce((a,b)=>a+b.jumlah,0);
+  const out=mine.filter(t=>t.type==='keluar'&&t.status!=='ditolak').reduce((a,b)=>a+b.jumlah,0);
+  $('#saldoIn').textContent=rp(inn);$('#saldoOut').textContent=rp(out);
+  $('#txList').innerHTML=mine.length?mine.map(t=>`<div class="item">
+    <div class="item-main"><b><i class="fa-solid ${t.type==='masuk'?'fa-arrow-down':'fa-arrow-up'}" style="color:${t.type==='masuk'?'var(--grn)':'var(--yel)'}"></i> ${esc(t.ket)}</b><span class="sub sm2">${tgl(t.createdAt)}</span></div>
+    <div class="item-side"><span class="badge ${t.status}">${ST(t.status)}</span><b style="color:${t.type==='masuk'?'var(--grn)':(t.status==='ditolak'?'var(--mut)':'var(--yel)')}">${t.type==='masuk'?'+':'−'}${rp(t.jumlah)}</b></div>
+  </div>`).join(''):`<p class="empty"><i class="fa-solid fa-receipt"></i>Belum ada transaksi</p>`;
+}
+function renderRiwayat(){
+  const mine=DB.setoran.filter(s=>s.memberId===ME.id).sort((a,b)=>b.createdAt-a.createdAt);
+  $('#riwayatList').innerHTML=mine.length?mine.map(s=>`<div class="item">
+    <div class="item-main"><b><i class="fa-solid fa-envelope"></i> ${esc(s.gmail)}</b>
+    <span class="sub sm2">${tgl(s.createdAt)} • ${esc(s.walletType)} <span class="mono">${esc(fmtW(s.walletNumber))}</span>${s.note?` • <span style="color:var(--red)">Ditolak: ${esc(s.note)}</span>`:''}</span></div>
+    <div class="item-side"><span class="badge ${s.status}">${ST(s.status)}</span><b>${rp(s.price)}</b></div>
+  </div>`).join(''):`<p class="empty"><i class="fa-solid fa-clock-rotate-left"></i>Belum ada setoran. Yuk setor gmail pertamamu!</p>`;
+}
+function renderAkun(){$('#akunGmail').textContent=ME.gmail;$('#akunPhone').textContent='No. HP: '+ME.phone;setAvatars();}
+
+/* ================= AUTENTIKASI ================= */
+function switchTab(t){$$('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));$('#loginForm').classList.toggle('hidden',t!=='login');$('#registerForm').classList.toggle('hidden',t!=='register');}
+ $$('.tab').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
+
+ $('#registerForm').onsubmit=async e=>{
+  e.preventDefault();
+  const g=$('#rgGmail').value.trim().toLowerCase(),ph=fmtW($('#rgPhone').value),p1=$('#rgPass').value,p2=$('#rgPass2').value;
+  if(!/^[^\s@]+@gmail\.com$/.test(g))return toast('Email harus berupa akun @gmail.com!','err');
+  if(ph.replace(/-/g,'').length<10||!ph.startsWith('08'))return toast('Nomor HP tidak valid! (contoh: 0812-3456-7890)','err');
+  if(p1.length<6)return toast('Password minimal 6 karakter!','err');
+  if(p1!==p2)return toast('Konfirmasi password tidak sama!','err');
+  const ok=await mutate(d=>{
+    if(d.members.some(m=>m.gmail===g))return 'Email sudah terdaftar, silakan masuk!';
+    d.members.push({id:uid(),gmail:g,pass:p1,phone:ph,saldo:0,photo:'',createdAt:Date.now()});
+  });
+  if(ok){e.target.reset();toast('Pendaftaran berhasil! Silakan masuk. ✨');switchTab('login');$('#liGmail').value=g;}
+};
+ $('#loginForm').onsubmit=async e=>{
+  e.preventDefault();
+  try{DB=await readDB();setSync('online');}catch(err){return toast('Tidak bisa terhubung ke BINS!','err');}
+  const m=DB.members.find(x=>x.gmail===$('#liGmail').value.trim().toLowerCase()&&x.pass===$('#liPass').value);
+  if(!m)return toast('Email atau password salah!','err');
+  localStorage.setItem('BINS_Session',m.id);ME=m;enterApp(true);
+};
+function enterApp(greet){
+  $('#authScreen').classList.add('hidden');$('#app').classList.remove('hidden');
+  afterSync();navigate('beranda');
+  if(greet)toast('Selamat datang kembali! 👋');
+}
+function logout(){if(!confirm('Yakin ingin keluar?'))return;localStorage.removeItem('BINS_Session');location.reload();}
+
+/* ================= SETOR ================= */
+ $('#setorForm').onsubmit=async e=>{
+  e.preventDefault();
+  const g=$('#stGmail').value.trim().toLowerCase(),p=$('#stPass').value,w=$('#stWallet').value,n=$('#stWalletNum').value.trim();
+  if(!DB.settings.open)return toast('Setoran sedang ditutup!','err');
+  if(!/^[^\s@]+@gmail\.com$/.test(g))return toast('Email harus akun @gmail.com!','err');
+  if(p.length<3)return toast('Password gmail tidak valid!','err');
+  if(!w)return toast('Pilih E-Wallet!','err');
+  if(n.replace(/-/g,'').length<10)return toast('Nomor E-Wallet tidak valid! (contoh: 0812-3456-7890)','err');
+  const ok=await mutate(d=>{
+    if(!d.settings.open)return 'Setoran baru saja ditutup admin!';
+    if(d.setoran.some(s=>s.gmail===g&&s.status!=='ditolak'))return 'Gmail ini sudah pernah disetor!';
+    d.setoran.push({id:uid(),memberId:ME.id,gmail:g,pass:p,walletType:w,walletNumber:n,price:d.settings.price,status:'pending',note:'',createdAt:Date.now()});
+  });
+  if(ok){e.target.reset();toast('Setoran terkirim! Menunggu verifikasi admin. ⏳');navigate('riwayat');}
+};
+
+/* ================= PENARIKAN ================= */
+ $('#wdForm').onsubmit=async e=>{
+  e.preventDefault();
+  const amt=Math.floor(+$('#wdAmount').value),w=$('#wdWallet').value,n=$('#wdNum').value.trim();
+  if(!w)return toast('Pilih E-Wallet tujuan!','err');
+  if(n.replace(/-/g,'').length<10)return toast('Nomor E-Wallet tidak valid!','err');
+  if(!amt||amt<1000)return toast('Minimal penarikan Rp 1.000!','err');
+  const ok=await mutate(d=>{
+    const m=d.members.find(x=>x.id===ME.id);
+    if(!m)return 'Akun tidak ditemukan!';
+    if(amt>m.saldo)return 'Saldo tidak cukup!';
+    m.saldo-=amt;
+    d.saldo.push({id:uid(),memberId:ME.id,type:'keluar',jumlah:amt,metode:w,nomor:n,status:'pending',ket:'Penarikan ke '+w,createdAt:Date.now()});
+  });
+  if(ok){e.target.reset();toast('Penarikan diajukan! Menunggu konfirmasi admin.');}
+};
+
+/* ================= AKUN ================= */
+ $('#passForm').onsubmit=async e=>{
+  e.preventDefault();
+  const old=$('#oldPass').value,np=$('#newPass').value,np2=$('#newPass2').value;
+  const ok=await mutate(d=>{
+    const m=d.members.find(x=>x.id===ME.id);
+    if(!m)return 'Akun tidak ditemukan!';
+    if(old!==m.pass)return 'Password lama salah!';
+    if(np.length<6)return 'Password baru minimal 6 karakter!';
+    if(np!==np2)return 'Konfirmasi password tidak sama!';
+    m.pass=np;
+  });
+  if(ok){e.target.reset();toast('Password berhasil diubah! 🔒');}
+};
+ $('#photoInput').onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{const img=new Image();img.onload=async()=>{
+    const c=document.createElement('canvas');c.width=c.height=96;
+    c.getContext('2d').drawImage(img,0,0,96,96);
+    const data=c.toDataURL('image/jpeg',0.72);
+    const ok=await mutate(d=>{const m=d.members.find(x=>x.id===ME.id);if(!m)return 'Akun tidak ditemukan!';m.photo=data;});
+    if(ok)toast('Foto profil diperbarui! 📸');
+  };img.src=ev.target.result;};
+  r.readAsDataURL(f);e.target.value='';
+};
+
+/* ===== FORMAT OTOMATIS NOMOR (wajib pakai -) ===== */
+['#stWalletNum','#wdNum','#rgPhone'].forEach(s=>{const el=$(s);if(el)el.addEventListener('input',()=>el.value=fmtW(el.value));});
+
+/* ================= AUTO-SYNC 3 DETIK (BINS CLOUD) ================= */
+async function syncNow(){
+  if(busy)return;
+  try{DB=await readDB();setSync('online');afterSync();}
+  catch(e){setSync('offline');}
+}
+setInterval(()=>{if(!document.hidden)syncNow();},CONFIG.SYNC_MS);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncNow();});
+
+/* ================= INIT ================= */
+(async function boot(){
+  await syncNow();
+  $('#loader').classList.add('hidden');
+  document.querySelector('.yr').textContent=new Date().getFullYear();
+  if(ME)enterApp(false);else $('#authScreen').classList.remove('hidden');
+})();
+</script>
+</body>
+</html>
