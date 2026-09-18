@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SetoranGmail — Admin</title>
+<title>StoranGmail</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
@@ -176,29 +176,29 @@ main{margin-left:0;padding:20px 14px 110px}
 <body>
 
 <!-- LOADER -->
-<div id="loader"><div class="spinner"></div><p>Menghubungkan ke BINS ☁️...</p></div>
+<div id="loader"><div class="spinner"></div><p></p></div>
 
 <!-- ========== LOGIN ADMIN ========== -->
 <div id="adminAuth" class="auth-wrap hidden">
   <div class="auth-card">
     <div class="brand">
       <div class="logo warn"><i class="fa-solid fa-shield-halved"></i></div>
-      <h1 id="authSiteName">SetoranGmail</h1>
-      <p>Panel Admin — Login</p>
+      <h1 id="authSiteName">StoranGmail</h1>
+      <p></p>
     </div>
     <form id="adminForm" style="margin-top:24px">
-      <div class="field"><label>Username Admin</label><div class="inp"><i class="fa-solid fa-user-shield"></i><input id="adUser" placeholder="Username" required></div></div>
-      <div class="field"><label>Password Admin</label><div class="inp"><i class="fa-solid fa-lock"></i><input type="password" id="adPass" placeholder="••••••••" required></div></div>
-      <button class="btn w100" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Masuk Panel Admin</button>
+      <div class="field"><label>Username :</label><div class="inp"><i class="fa-solid fa-user-shield"></i><input id="adUser" placeholder="Username" required></div></div>
+      <div class="field"><label>Password :</label><div class="inp"><i class="fa-solid fa-lock"></i><input type="password" id="adPass" placeholder="••••••••" required></div></div>
+      <button class="btn w100" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Masuk</button>
     </form>
-    <p class="auth-foot">Masuk dengan akun admin yang sudah diatur.</p>
+    <p class="auth-foot"></p>
   </div>
 </div>
 
 <!-- ========== APLIKASI ADMIN ========== -->
 <div id="app" class="app hidden">
   <aside class="sidebar">
-    <div class="side-brand"><div class="logo sm warn"><i class="fa-solid fa-shield-halved"></i></div><span id="sideSiteName">SetoranGmail</span></div>
+    <div class="side-brand"><div class="logo sm warn"><i class="fa-solid fa-shield-halved"></i></div><span id="sideSiteName">StoranGmail</span></div>
     <nav>
       <button class="nav-btn active" data-page="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
       <button class="nav-btn" data-page="pengaturan"><i class="fa-solid fa-gear"></i> Pengaturan</button>
@@ -367,7 +367,7 @@ const DEF={siteName:'SetoranGmail',tagline:'Platform setor akun Gmail terpercaya
 
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 let DB=norm(null),cur='dashboard',setorFilter='pending',wdFilter='pending',activeConv=null,busy=false;
-const PAGES={dashboard:['Dashboard','Ringkasan data SetoranGmail'],pengaturan:['Pengaturan','Info website, harga & saluran WA'],member:['Data Member','Kelola member terdaftar'],setoran:['Setoran Gmail','Terima / tolak setoran member'],ewallet:['E-Wallet','Nomor penyetor & penarikan saldo'],pesan:['Pesan CS','Balas chat member'],kontrol:['Kontrol Setoran','Buka / tutup setoran']};
+const PAGES={dashboard:['Dashboard',''],pengaturan:['Pengaturan','Info website, harga & saluran WA'],member:['Data Member','Kelola member terdaftar'],setoran:['Setoran Gmail','Terima / tolak setoran member'],ewallet:['E-Wallet','Nomor penyetor & penarikan saldo'],pesan:['Pesan CS','Balas chat member'],kontrol:['Kontrol Setoran','Buka / tutup setoran']};
 const rp=n=>'Rp '+Number(n||0).toLocaleString('id-ID');
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
