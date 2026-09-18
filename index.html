@@ -163,8 +163,18 @@ main{margin-left:0;padding:20px 16px 110px}
 .bottomnav button.active{color:#a58bff}
 .auth-card{padding:28px 22px}
 .fab-wrap{bottom:88px}
-.cs-pop{bottom:160px}
+/* ===== POPUP CS DI HP: TENGAH LAYAR, TIDAK KEPOTONG ===== */
+.cs-pop{
+  left:50%;right:auto;bottom:auto;top:50%;
+  transform:translate(-50%,-50%);
+  width:min(400px,calc(100vw - 28px));
+  max-height:min(480px,calc(100vh - 180px));
+  max-height:min(480px,calc(100dvh - 180px));
+  animation:popInC .25s;
 }
+.chat-box{min-height:130px}
+}
+@keyframes popInC{from{opacity:0;transform:translate(-50%,-46%)}to{opacity:1;transform:translate(-50%,-50%)}}
 </style>
 </head>
 <body>
@@ -616,7 +626,6 @@ function checkNewAdminMsg(){
   const prev=+prevRaw;
   if(la>prev){
     localStorage.setItem(key,String(la));
-    const wasOpen=$('#csPop').classList.contains('open');
     toggleCS(true);
     renderChat();
     toast('💬 Pesan baru dari CS Admin!','ok');
