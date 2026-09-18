@@ -38,7 +38,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(600px 
 .inp input::placeholder{color:#566084}
 select{flex:1;background:none;border:none;outline:none;color:var(--txt);padding:13px 0;font-size:13.5px;cursor:pointer;font-family:inherit;color-scheme:dark}
 select option{background:var(--card)}
-textarea{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:12px;color:var(--txt);padding:12px 14px;font-size:13px;font-family:inherit;outline:none;resize:vertical;min-height:110px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--grad);color:#fff;border:none;padding:13px 20px;border-radius:12px;font-weight:600;font-size:14px;cursor:pointer;transition:.25s;font-family:inherit}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(124,92,255,.4)}
 .btn-ghost{display:inline-flex;align-items:center;gap:8px;background:var(--bg2);color:var(--txt);border:1px solid var(--line);padding:10px 16px;border-radius:12px;cursor:pointer;font-size:13px;font-weight:500;transition:.2s;font-family:inherit}
@@ -126,27 +125,32 @@ main{flex:1;margin-left:256px;padding:24px 28px 100px}
 .toast{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);padding:13px 18px;border-radius:12px;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.5);animation:tin .3s;display:flex;align-items:center;gap:10px;max-width:330px;transition:.3s}
 .toast.ok i{color:var(--grn)}.toast.err{border-left-color:var(--red)}.toast.err i{color:var(--red)}
 @keyframes tin{from{transform:translateX(40px);opacity:0}}
-/* ===== TOMBOL MELAYANG CS & WHATSAPP ===== */
+/* ===== TOMBOL MELAYANG CS (CHAT) & WA (SALURAN) — HANYA SAAT LOGIN ===== */
 .fab-wrap{position:fixed;right:20px;bottom:20px;z-index:75;display:flex;flex-direction:column;gap:12px;align-items:center}
-.fab{position:relative;width:56px;height:56px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;font-size:25px;color:#fff;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.5);transition:.25s}
+.fab{position:relative;width:56px;height:56px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;font-size:25px;color:#fff;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.5);transition:.25s;text-decoration:none}
 .fab:hover{transform:translateY(-3px) scale(1.06)}
 .fab-cs{background:linear-gradient(135deg,#7c5cff,#4f8cff)}
-.fab-wa{background:linear-gradient(135deg,#25d366,#128c7e);text-decoration:none}
-.fab-wa::before{content:'';position:absolute;inset:0;border-radius:50%;border:2px solid #25d366;animation:waPulse 2s infinite}
-@keyframes waPulse{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.75);opacity:0}}
+.fab-wa{background:linear-gradient(135deg,#25d366,#128c7e)}
+.fab-badge{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;border-radius:10px;background:var(--red);color:#fff;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 6px;box-shadow:0 3px 8px rgba(0,0,0,.4)}
 .fab-tip{position:absolute;right:68px;top:50%;transform:translateY(-50%);background:var(--card);border:1px solid var(--line);color:var(--txt);padding:6px 12px;border-radius:10px;font-size:11.5px;font-weight:600;white-space:nowrap;opacity:0;pointer-events:none;transition:.2s}
 .fab:hover .fab-tip{opacity:1}
-.cs-pop{position:fixed;right:20px;bottom:96px;width:330px;max-width:calc(100vw - 32px);background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;z-index:80;box-shadow:0 24px 60px rgba(0,0,0,.65);display:none;animation:fade .3s}
-.cs-pop.open{display:block}
-.cs-head{background:var(--grad);padding:14px 16px;display:flex;align-items:center;gap:12px}
+/* ===== POPUP CHAT CS ===== */
+.cs-pop{position:fixed;right:20px;bottom:96px;width:340px;max-width:calc(100vw - 32px);background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;z-index:80;box-shadow:0 24px 60px rgba(0,0,0,.65);display:none;animation:fade .3s}
+.cs-pop.open{display:flex;flex-direction:column;max-height:min(520px,70vh)}
+.cs-head{background:var(--grad);padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0}
 .cs-head .cs-av{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:17px;color:#fff;flex-shrink:0}
 .cs-head b{font-size:13.5px;display:block}
 .cs-head .cs-on{font-size:10.5px;opacity:.92;display:flex;align-items:center;gap:5px}
 .cs-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 1.5s infinite}
-.cs-head button{margin-left:auto;width:30px;height:30px;border-radius:9px;border:none;background:rgba(255,255,255,.18);color:#fff;cursor:pointer;font-size:13px}
-.cs-body{padding:16px}
-.cs-quick{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
-.cs-quick .btn-ghost{font-size:10.5px;padding:7px 11px;border-radius:9px}
+.cs-head button{margin-left:auto;width:30px;height:30px;border-radius:9px;border:none;background:rgba(255,255,255,.18);color:#fff;cursor:pointer;font-size:13px;flex-shrink:0}
+.chat-box{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:14px;min-height:180px}
+.bub{max-width:80%;padding:9px 12px;border-radius:14px;font-size:12.5px;line-height:1.5;word-break:break-word}
+.bub.me{align-self:flex-end;background:var(--grad);color:#fff;border-bottom-right-radius:4px}
+.bub.adm{align-self:flex-start;background:var(--bg2);border:1px solid var(--line);border-bottom-left-radius:4px}
+.bub .t{display:block;font-size:9.5px;opacity:.65;margin-top:4px}
+.cs-send{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--line);flex-shrink:0}
+.cs-send .inp{flex:1}
+.cs-send .btn{padding:0 16px;font-size:14px}
 .bottomnav{display:none}
 @media(max-width:880px){
 .sidebar{display:none}
@@ -338,30 +342,25 @@ main{margin-left:0;padding:20px 16px 110px}
     <button data-page="riwayat"><i class="fa-solid fa-clock-rotate-left"></i>Riwayat</button>
     <button data-page="akun"><i class="fa-solid fa-user-gear"></i>Akun</button>
   </nav>
-</div>
 
-<!-- ========== TOMBOL MELAYANG CS & WHATSAPP (KANAN BAWAH) ========== -->
-<div class="fab-wrap">
-  <button class="fab fab-cs" onclick="toggleCS()" title="Hubungi CS"><i class="fa-solid fa-headset"></i><span class="fab-tip">Hubungi CS</span></button>
-  <a class="fab fab-wa" id="fabWa" href="#" target="_blank" rel="noopener" title="WhatsApp Admin"><i class="fa-brands fa-whatsapp"></i><span class="fab-tip">Chat WhatsApp Admin</span></a>
-</div>
-
-<!-- ========== POPUP CHAT CS ========== -->
-<div class="cs-pop" id="csPop">
-  <div class="cs-head">
-    <div class="cs-av"><i class="fa-solid fa-headset"></i></div>
-    <div><b>CS Admin</b><span class="cs-on"><span class="cs-dot"></span> Online — dibalas via WhatsApp</span></div>
-    <button onclick="toggleCS(false)" title="Tutup"><i class="fa-solid fa-xmark"></i></button>
+  <!-- ===== TOMBOL CS & WA (MUNCUL SETELAH LOGIN) ===== -->
+  <div class="fab-wrap">
+    <button class="fab fab-cs" onclick="toggleCS()" title="Chat CS"><i class="fa-solid fa-headset"></i><span class="fab-tip">Chat CS Admin</span><span class="fab-badge" id="csBadge">0</span></button>
+    <a class="fab fab-wa" id="fabWa" href="#" target="_blank" rel="noopener" title="Gabung Saluran WA" onclick="if(this.dataset.on!=='1'){event.preventDefault();toast('Saluran WhatsApp belum diatur admin.','err')}"><i class="fa-brands fa-whatsapp"></i><span class="fab-tip">Gabung Saluran WhatsApp</span></a>
   </div>
-  <div class="cs-body">
-    <p class="sub" style="font-size:12px;margin-bottom:12px">Halo! 👋 Ada yang bisa dibantu? Pilih topik cepat atau tulis pesanmu, lalu lanjut chat langsung dengan admin via WhatsApp.</p>
-    <div class="cs-quick">
-      <button class="btn-ghost" onclick="sendCS('Halo Admin, saya mau tanya soal setoran gmail')">💬 Tanya Setoran</button>
-      <button class="btn-ghost" onclick="sendCS('Halo Admin, saya mau tanya soal penarikan saldo')">💬 Tanya Saldo</button>
-      <button class="btn-ghost" onclick="sendCS('Halo Admin, setoran saya belum diverifikasi, mohon dicek ya 🙏')">💬 Cek Verifikasi</button>
+
+  <!-- ===== POPUP CHAT CS (INTERNAL) ===== -->
+  <div class="cs-pop" id="csPop">
+    <div class="cs-head">
+      <div class="cs-av"><i class="fa-solid fa-headset"></i></div>
+      <div><b>CS Admin</b><span class="cs-on"><span class="cs-dot"></span> Online — balas via chat</span></div>
+      <button onclick="toggleCS(false)" title="Tutup"><i class="fa-solid fa-xmark"></i></button>
     </div>
-    <div class="field" style="margin-bottom:10px"><div class="inp"><i class="fa-solid fa-pen"></i><input id="csMsg" placeholder="Tulis pesan kamu..." maxlength="300"></div></div>
-    <button class="btn w100" onclick="sendCS()"><i class="fa-brands fa-whatsapp"></i> Kirim ke WhatsApp Admin</button>
+    <div class="chat-box" id="chatBox"><p class="empty" style="padding:14px 6px"><i class="fa-solid fa-comments"></i>Memuat chat…</p></div>
+    <div class="cs-send">
+      <div class="inp"><input id="csMsg" placeholder="Tulis pesan…" maxlength="500"></div>
+      <button class="btn" onclick="sendMsg()" title="Kirim"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
   </div>
 </div>
 
@@ -375,7 +374,7 @@ const CONFIG={
   SYNC_MS:3000
 };
 const APIB='https://api.jsonbin.io/v3';
-const DEF={siteName:'SetoranGmail',tagline:'Platform setor akun Gmail terpercaya',info:'Setorkan akun Gmail Anda dan dapatkan penghasilan! Admin akan memverifikasi setoran, lalu saldo langsung masuk ke akun Anda. Saldo bisa ditarik ke OVO, DANA, atau GoPay mulai dari Rp 1.000.',price:1000,open:true,adminUser:'JirunSmd',adminPass:'JirunSmd27-',waAdmin:'6281234567890'};
+const DEF={siteName:'SetoranGmail',tagline:'Platform setor akun Gmail terpercaya',info:'Setorkan akun Gmail Anda dan dapatkan penghasilan! Admin akan memverifikasi setoran, lalu saldo langsung masuk ke akun Anda. Saldo bisa ditarik ke OVO, DANA, atau GoPay mulai dari Rp 1.000.',price:1000,open:true,adminUser:'JirunSmd',adminPass:'JirunSmd27-',waChannel:''};
 
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 let DB=norm(null),ME=null,cur='beranda',busy=false;
@@ -386,7 +385,7 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const tgl=t=>new Date(t).toLocaleString('id-ID',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
 const fmtW=v=>{const d=String(v).replace(/\D/g,'').slice(0,15);return(d.match(/.{1,4}/g)||[]).join('-')};
 const ST=s=>({pending:'Pending',sukses:'Sukses',ditolak:'Ditolak'}[s]||s);
-function norm(r){r=r||{};return{settings:Object.assign({},DEF,r.settings||{}),members:Array.isArray(r.members)?r.members:[],setoran:Array.isArray(r.setoran)?r.setoran:[],saldo:Array.isArray(r.saldo)?r.saldo:[]};}
+function norm(r){r=r||{};return{settings:Object.assign({},DEF,r.settings||{}),members:Array.isArray(r.members)?r.members:[],setoran:Array.isArray(r.setoran)?r.setoran:[],saldo:Array.isArray(r.saldo)?r.saldo:[],chat:Array.isArray(r.chat)?r.chat:[]};}
 
 /* ================= API BINS (READ / WRITE) ================= */
 async function readDB(){
@@ -420,8 +419,9 @@ function toast(msg,type='ok'){const t=document.createElement('div');t.className=
 function setSync(s){const d=$('#syncDot'),t=$('#syncText');if(!d)return;d.classList.toggle('off',s==='offline');d.style.background=s==='offline'?'var(--red)':s==='saving'?'var(--yel)':'var(--grn)';t.textContent=s==='offline'?'Offline':s==='saving'?'Menyimpan...':'Live • sync 3s';}
 function applyBrand(){
   $('#authSiteName').textContent=DB.settings.siteName;$('#authTagline').textContent=DB.settings.tagline;$('#sideSiteName').textContent=DB.settings.siteName;document.title=DB.settings.siteName+' — Member';
-  const wa=String(DB.settings.waAdmin||'').replace(/\D/g,'');
-  const el=$('#fabWa');if(el&&wa)el.href='https://wa.me/'+wa;
+  const ch=String(DB.settings.waChannel||'').trim();
+  const el=$('#fabWa');
+  if(el){if(/^https?:\/\//i.test(ch)){el.href=ch;el.dataset.on='1';}else{el.removeAttribute('href');el.dataset.on='0';}}
 }
 const avH=m=>m&&m.photo?`<img src="${m.photo}" alt="">`:esc(((m&&m.gmail)||'?')[0].toUpperCase());
 function setAvatars(){['#sideAvatar','#topAvatar','#akunAvatar'].forEach(s=>{const el=$(s);if(el)el.innerHTML=ME&&ME.photo?`<img src="${ME.photo}" alt="">`:esc((ME?ME.gmail[0]:'?').toUpperCase());});}
@@ -436,6 +436,7 @@ function afterSync(){
     $('#sideName').textContent=m.gmail.split('@')[0];
     $('#sideGmail').textContent=m.gmail;
     setAvatars();updateTop();
+    renderChat();
     if(wasIn)render(cur);
   }else if(wasIn){location.reload();}
 }
@@ -513,7 +514,7 @@ function enterApp(greet){
 }
 function logout(){if(!confirm('Yakin ingin keluar?'))return;localStorage.removeItem('BINS_Session');location.reload();}
 
-/* ================= SETOR (nomor e-wallet otomatis dari No. HP terdaftar) ================= */
+/* ================= SETOR ================= */
  $('#setorForm').onsubmit=async e=>{
   e.preventDefault();
   const g=$('#stGmail').value.trim().toLowerCase(),p=$('#stPass').value,w=$('#stWallet').value;
@@ -576,18 +577,30 @@ function logout(){if(!confirm('Yakin ingin keluar?'))return;localStorage.removeI
   r.readAsDataURL(f);e.target.value='';
 };
 
-/* ================= CS & WHATSAPP ADMIN ================= */
-function toggleCS(f){const p=$('#csPop');const open=(f===undefined)?!p.classList.contains('open'):!!f;p.classList.toggle('open',open);if(open)setTimeout(()=>{const i=$('#csMsg');if(i)i.focus();},100);}
-function sendCS(txt){
-  const num=String(DB.settings.waAdmin||'').replace(/\D/g,'');
-  if(!num||num.length<9)return toast('Admin belum mengatur nomor WhatsApp!','err');
-  const msg=(txt||$('#csMsg').value).trim();
-  if(!msg)return toast('Tulis pesan kamu dulu ya!','err');
-  const me=ME?('\n\n—\nAkun: '+ME.gmail):'';
-  window.open('https://wa.me/'+num+'?text='+encodeURIComponent(msg+me),'_blank');
-  if(!txt)$('#csMsg').value='';
-  toggleCS(false);
+/* ================= CHAT CS (INTERNAL) ================= */
+function toggleCS(f){
+  const p=$('#csPop');
+  const open=(f===undefined)?!p.classList.contains('open'):!!f;
+  p.classList.toggle('open',open);
+  if(open){localStorage.setItem('BINS_ChatSeenM',Date.now());renderChat();setTimeout(()=>{const i=$('#csMsg');if(i)i.focus();},100);}
 }
+function renderChat(){
+  const box=$('#chatBox');if(!box||!ME)return;
+  const mine=DB.chat.filter(c=>c.memberId===ME.id).sort((a,b)=>a.at-b.at);
+  box.innerHTML=mine.length?mine.map(c=>`<div class="bub ${c.from==='member'?'me':'adm'}">${esc(c.msg)}<span class="t">${tgl(c.at)}</span></div>`).join(''):`<p class="empty" style="padding:14px 6px"><i class="fa-solid fa-comments"></i>Belum ada pesan. Sapa CS Admin kami! 👋</p>`;
+  box.scrollTop=box.scrollHeight;
+  if($('#csPop').classList.contains('open'))localStorage.setItem('BINS_ChatSeenM',Date.now());
+  const seen=+(localStorage.getItem('BINS_ChatSeenM')||0);
+  const unread=DB.chat.filter(c=>c.memberId===ME.id&&c.from==='admin'&&c.at>seen).length;
+  const b=$('#csBadge');if(b){b.style.display=unread?'flex':'none';b.textContent=unread>99?'99+':unread;}
+}
+async function sendMsg(){
+  const v=$('#csMsg').value.trim();
+  if(!v)return toast('Tulis pesan kamu dulu ya!','err');
+  const ok=await mutate(d=>{d.chat.push({id:uid(),memberId:ME.id,from:'member',msg:v,at:Date.now()});});
+  if(ok){$('#csMsg').value='';renderChat();}
+}
+ $('#csMsg').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();sendMsg();}});
 
 /* ===== FORMAT OTOMATIS NOMOR ===== */
 ['#wdNum','#rgPhone'].forEach(s=>{const el=$(s);if(el)el.addEventListener('input',()=>el.value=fmtW(el.value));});
