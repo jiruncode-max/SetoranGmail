@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SetoranGmail — Member</title>
+<title>StoranGmail</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
@@ -180,40 +180,40 @@ main{margin-left:0;padding:20px 16px 110px}
 <body>
 
 <!-- LOADER -->
-<div id="loader"><div class="spinner"></div><p>Menghubungkan ke BINS ☁️...</p></div>
+<div id="loader"><div class="spinner"></div><p></p></div>
 
 <!-- ========== LOGIN / DAFTAR ========== -->
 <div id="authScreen" class="auth-wrap hidden">
   <div class="auth-card">
     <div class="brand">
       <div class="logo"><i class="fa-solid fa-envelope"></i></div>
-      <h1 id="authSiteName">SetoranGmail</h1>
-      <p id="authTagline">Platform setor akun Gmail terpercaya</p>
+      <h1 id="authSiteName">StoranGmail</h1>
+      <p id="authTagline">Platform Setor Akun Gmail Terpercaya</p>
     </div>
     <div class="tabs">
       <button class="tab active" data-tab="login">Masuk</button>
       <button class="tab" data-tab="register">Daftar</button>
     </div>
     <form id="loginForm">
-      <div class="field"><label>Email Gmail</label><div class="inp"><i class="fa-solid fa-envelope"></i><input type="email" id="liGmail" placeholder="nama@gmail.com" required></div></div>
+      <div class="field"><label>Gmail / Email</label><div class="inp"><i class="fa-solid fa-envelope"></i><input type="email" id="liGmail" placeholder="nama@gmail.com" required></div></div>
       <div class="field"><label>Password</label><div class="inp"><i class="fa-solid fa-lock"></i><input type="password" id="liPass" placeholder="••••••••" required></div></div>
       <button class="btn w100" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Masuk</button>
     </form>
     <form id="registerForm" class="hidden">
-      <div class="field"><label>Email Gmail</label><div class="inp"><i class="fa-solid fa-envelope"></i><input type="email" id="rgGmail" placeholder="nama@gmail.com" required></div></div>
-      <div class="field"><label>Nomor HP / WhatsApp (format: 0812-1212-121212)</label><div class="inp"><i class="fa-solid fa-phone"></i><input id="rgPhone" placeholder="0812-1212-121212" maxlength="20" required></div></div>
+      <div class="field"><label>Gmail / Email</label><div class="inp"><i class="fa-solid fa-envelope"></i><input type="email" id="rgGmail" placeholder="Contoh : nama@gmail.com" required></div></div>
+      <div class="field"><label>Nomor Hp / Wa</label><div class="inp"><i class="fa-solid fa-phone"></i><input id="rgPhone" placeholder="Contoh : 08xx-xxxx-xxxxxx" maxlength="20" required></div></div>
       <div class="field"><label>Password</label><div class="inp"><i class="fa-solid fa-lock"></i><input type="password" id="rgPass" placeholder="Minimal 6 karakter" required></div></div>
       <div class="field"><label>Ulangi Password</label><div class="inp"><i class="fa-solid fa-lock"></i><input type="password" id="rgPass2" placeholder="Ulangi password" required></div></div>
       <button class="btn w100" type="submit"><i class="fa-solid fa-user-plus"></i> Daftar Sekarang</button>
     </form>
-    <p class="auth-foot">© <span class="yr"></span> <span class="siteNameFoot">SetoranGmail</span> — Data tersimpan aman di cloud BINS ☁️</p>
+    <p class="auth-foot"><span class="yr"></span> <span class="siteNameFoot"></span></p>
   </div>
 </div>
 
 <!-- ========== APLIKASI MEMBER ========== -->
 <div id="app" class="app hidden">
   <aside class="sidebar">
-    <div class="side-brand"><div class="logo sm"><i class="fa-solid fa-envelope"></i></div><span id="sideSiteName">SetoranGmail</span></div>
+    <div class="side-brand"><div class="logo sm"><i class="fa-solid fa-envelope"></i></div><span id="sideSiteName">StoranGmail</span></div>
     <nav>
       <button class="nav-btn active" data-page="beranda"><i class="fa-solid fa-house"></i> Beranda</button>
       <button class="nav-btn" data-page="setor"><i class="fa-solid fa-arrow-up"></i> Setor</button>
@@ -232,7 +232,7 @@ main{margin-left:0;padding:20px 16px 110px}
     <header class="topbar">
       <div><h2 id="pageTitle">Beranda</h2><p class="sub" id="pageSub">Informasi website</p></div>
       <div class="topbar-right">
-        <div class="live"><span class="live-dot off" id="syncDot" style="background:var(--yel)"></span><span id="syncText">Menghubungkan…</span></div>
+        <div class="live"><span class="live-dot off" id="syncDot" style="background:var(--yel)"></span><span id="syncText"></span></div>
         <div class="saldo-chip"><i class="fa-solid fa-coins" style="color:var(--yel)"></i><span id="topSaldo">Rp 0</span></div>
         <div class="avatar" id="topAvatar" onclick="navigate('akun')" title="Akun saya">S</div>
       </div>
@@ -242,8 +242,8 @@ main{margin-left:0;padding:20px 16px 110px}
     <section id="page-beranda" class="page">
       <div class="hero">
         <span class="hero-tag" id="heroStatus"><i class="fa-solid fa-circle-check"></i> Setoran Dibuka</span>
-        <h3 id="heroName">SetoranGmail</h3>
-        <p id="heroInfo">Platform setor akun Gmail terpercaya</p>
+        <h3 id="heroName">StoranGmail</h3>
+        <p id="heroInfo">Platform Setor Akun Gmail Terpercaya</p>
       </div>
       <div class="grid g2" style="margin-top:16px">
         <div class="card stat"><div class="stat-ic"><i class="fa-solid fa-tag"></i></div><div><span>Harga 1 Gmail</span><b id="heroPrice">Rp 0</b></div></div>
@@ -252,7 +252,7 @@ main{margin-left:0;padding:20px 16px 110px}
         <div class="card stat"><div class="stat-ic" style="color:var(--grn);background:rgba(34,197,94,.13)"><i class="fa-solid fa-circle-check"></i></div><div><span>Setoran Sukses</span><b id="heroSukses">0</b></div></div>
       </div>
       <div class="card" style="margin-top:16px">
-        <h4 class="card-title"><i class="fa-solid fa-circle-info"></i> Informasi Website</h4>
+        <h4 class="card-title"><i class="fa-solid fa-circle-info"></i> Informasi Websate</h4>
         <p class="sub" id="berandaInfo"></p>
       </div>
       <button class="btn w100" style="margin-top:16px" onclick="navigate('setor')"><i class="fa-solid fa-arrow-up"></i> Setor Gmail Sekarang</button>
@@ -263,24 +263,24 @@ main{margin-left:0;padding:20px 16px 110px}
       <div id="setorClosed" class="card closed-card hidden">
         <i class="fa-solid fa-ban"></i>
         <h3>Setoran Sedang Ditutup</h3>
-        <p class="sub">Kuota setoran sedang penuh. Silakan coba lagi nanti ya! 🙏</p>
+        <p class="sub">Kuota Setoran Sedang Penuh. Silakan Coba Lagi Nanti ! 🙏</p>
       </div>
       <div id="setorOpen">
         <div class="card price-banner">
           <i class="fa-solid fa-tags"></i>
-          <div><span>Harga per 1 Gmail saat ini</span><b id="setorPrice">Rp 0</b></div>
+          <div><span>Harga 1 Gmail Saat Ini</span><b id="setorPrice">Rp 0</b></div>
         </div>
         <div class="card" style="margin-top:16px">
           <h4 class="card-title"><i class="fa-solid fa-plus"></i> Form Setor Gmail</h4>
           <form id="setorForm">
             <div class="grid g2">
-              <div class="field"><label>Email Gmail yang Disetor</label><div class="inp"><i class="fa-solid fa-at"></i><input id="stGmail" placeholder="contoh@gmail.com" required></div></div>
-              <div class="field"><label>Password Gmail</label><div class="inp"><i class="fa-solid fa-key"></i><input type="password" id="stPass" placeholder="Password akun gmail" required></div></div>
+              <div class="field"><label>Email Gmail Yang Disetor</label><div class="inp"><i class="fa-solid fa-at"></i><input id="stGmail" placeholder="Contoh : nama@gmail.com" required></div></div>
+              <div class="field"><label>Password Gmail</label><div class="inp"><i class="fa-solid fa-key"></i><input type="password" id="stPass" placeholder="Contoh : 123456" required></div></div>
               <div class="field"><label>E-Wallet Pencairan</label><div class="inp"><i class="fa-solid fa-wallet"></i>
-                <select id="stWallet"><option value="">Pilih E-Wallet</option><option value="OVO">OVO</option><option value="DANA">DANA</option><option value="GoPay">GoPay</option></select>
+                <select id="stWallet"><option value="">Pilih E-Wallet</option><option value="OVO">Ovo</option><option value="DANA">Dana</option><option value="GoPay">Gopay</option></select>
               </div></div>
             </div>
-            <div class="note"><i class="fa-solid fa-shield-halved"></i><span>Pastikan data gmail benar. Setoran diverifikasi admin dulu sebelum saldo masuk. Saldo otomatis dikirim ke nomor HP terdaftar kamu: <b class="mono" id="stPhone" style="color:var(--txt)">-</b></span></div>
+            <div class="note"><i class="fa-solid fa-shield-halved"></i><span>Pastikan Data Akun Gmail Yang Disetor Benar, Dan E-Wallet Pencairan Juga Benar. Nomor E-Wallet Kamu : <b class="mono" id="stPhone" style="color:var(--txt)">-</b></span></div>
             <button class="btn w100" type="submit"><i class="fa-solid fa-paper-plane"></i> Kirim Setoran</button>
           </form>
         </div>
@@ -301,11 +301,11 @@ main{margin-left:0;padding:20px 16px 110px}
         <div class="card">
           <h4 class="card-title"><i class="fa-solid fa-money-bill-transfer"></i> Tarik Saldo</h4>
           <form id="wdForm">
-            <div class="field"><label>E-Wallet Tujuan</label><div class="inp"><i class="fa-solid fa-wallet"></i>
-              <select id="wdWallet"><option value="">Pilih E-Wallet</option><option value="OVO">OVO</option><option value="DANA">DANA</option><option value="GoPay">GoPay</option></select></div></div>
-            <div class="field"><label>Nomor E-Wallet (format: 0812-1212-121212)</label><div class="inp"><i class="fa-solid fa-mobile-screen"></i><input id="wdNum" placeholder="0812-1212-121212" maxlength="20" required></div></div>
-            <div class="field"><label>Jumlah Penarikan (min Rp 1.000)</label><div class="inp"><i class="fa-solid fa-coins"></i><input type="number" id="wdAmount" min="1000" step="500" placeholder="1000" required></div></div>
-            <div class="note"><i class="fa-solid fa-circle-info"></i><span>Minimal penarikan Rp 1.000. Penarikan diproses oleh admin ke OVO / DANA / GoPay.</span></div>
+            <div class="field"><label>E-Wallet Penarikan</label><div class="inp"><i class="fa-solid fa-wallet"></i>
+              <select id="wdWallet"><option value="">Pilih E-Wallet</option><option value="OVO">Ovo</option><option value="DANA">Dana</option><option value="GoPay">Gopay</option></select></div></div>
+            <div class="field"><label>Nomor E-Wallet</label><div class="inp"><i class="fa-solid fa-mobile-screen"></i><input id="wdNum" placeholder="Contoh : 08xx-xxxx-xxxxxx" maxlength="20" required></div></div>
+            <div class="field"><label>Jumlah Penarikan</label><div class="inp"><i class="fa-solid fa-coins"></i><input type="number" id="wdAmount" min="Minimal : 1000" step="500" placeholder="1000" required></div></div>
+            <div class="note"><i class="fa-solid fa-circle-info"></i><span>Minimal Penarikan Rp 1.000. Penarikan Diproses Oleh Admin Ke E-Wallet</span></div>
             <button class="btn w100" type="submit"><i class="fa-solid fa-arrow-down"></i> Ajukan Penarikan</button>
           </form>
         </div>
@@ -358,14 +358,14 @@ main{margin-left:0;padding:20px 16px 110px}
   <!-- ===== TOMBOL CS & WA (MUNCUL SETELAH LOGIN) ===== -->
   <div class="fab-wrap">
     <button class="fab fab-cs" onclick="toggleCS()" title="Chat CS"><i class="fa-solid fa-headset"></i><span class="fab-tip">Chat CS Admin</span><span class="fab-badge" id="csBadge">0</span></button>
-    <a class="fab fab-wa" id="fabWa" href="#" target="_blank" rel="noopener" title="Gabung Saluran WA" onclick="if(this.dataset.on!=='1'){event.preventDefault();toast('Saluran WhatsApp belum diatur admin.','err')}"><i class="fa-brands fa-whatsapp"></i><span class="fab-tip">Gabung Saluran WhatsApp</span></a>
+    <a class="fab fab-wa" id="fabWa" href="#" target="_blank" rel="noopener" title="Gabung Saluran WA" onclick="if(this.dataset.on!=='1'){event.preventDefault();toast('Saluran WhatsApp belum diatur admin.','err')}"><i class="fa-brands fa-whatsapp"></i><span class="fab-tip"></span></a>
   </div>
 
   <!-- ===== POPUP CHAT CS (INTERNAL) ===== -->
   <div class="cs-pop" id="csPop">
     <div class="cs-head">
       <div class="cs-av"><i class="fa-solid fa-headset"></i></div>
-      <div><b>CS Admin</b><span class="cs-on"><span class="cs-dot"></span> Online — balas via chat</span></div>
+      <div><b>Admin CS</b><span class="cs-on"><span class="cs-dot"></span> Online</span></div>
       <button onclick="toggleCS(false)" title="Tutup"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="chat-box" id="chatBox"><p class="empty" style="padding:14px 6px"><i class="fa-solid fa-comments"></i>Memuat chat…</p></div>
@@ -390,7 +390,7 @@ const DEF={siteName:'SetoranGmail',tagline:'Platform setor akun Gmail terpercaya
 
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 let DB=norm(null),ME=null,cur='StoranGmail',busy=false;
-const PAGES={beranda:['StoranGmail','TikTok Resmi : https://www.tiktok.com/@storangmail'],setor:['Setor','Setorkan akun Gmail kamu'],saldo:['Saldo','Cek & tarik saldo kamu'],riwayat:['Riwayat','Status setoran kamu'],akun:['Akun','Kelola profil & password']};
+const PAGES={beranda:['StoranGmail','TikTok Resmi : https://www.tiktok.com/@storangmail'],setor:['Setor','Setorkan Akun Gmail Kamu'],saldo:['Saldo','Cek & tarik saldo kamu'],riwayat:['Riwayat','Status Setoran Kamu'],akun:['Akun','Kelola profil & password']};
 const rp=n=>'Rp '+Number(n||0).toLocaleString('id-ID');
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -492,7 +492,7 @@ function renderRiwayat(){
     <div class="item-side"><span class="badge ${s.status}">${ST(s.status)}</span><b>${rp(s.price)}</b></div>
   </div>`).join(''):`<p class="empty"><i class="fa-solid fa-clock-rotate-left"></i>Belum ada setoran. Yuk setor gmail pertamamu!</p>`;
 }
-function renderAkun(){$('#akunGmail').textContent=ME.gmail;$('#akunPhone').textContent='No. HP: '+fmtW(ME.phone);setAvatars();}
+function renderAkun(){$('#akunGmail').textContent=ME.gmail;$('#akunPhone').textContent='Nomor Hp / Wa : '+fmtW(ME.phone);setAvatars();}
 
 /* ================= AUTENTIKASI ================= */
 function switchTab(t){$$('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));$('#loginForm').classList.toggle('hidden',t!=='login');$('#registerForm').classList.toggle('hidden',t!=='register');}
